@@ -39,17 +39,6 @@ public class SearchActivity extends AppCompatActivity {
         adapter = new AdapterBook(dataArrayList);
         recyclerView.setAdapter(adapter);
 
-        dataArrayList.add(new BookData(R.drawable.example_book_img,"엘저넌에게 꽃을","저자 : 대니얼키스","출판사 : 미루출판사","보유자 : 곽건"));
-        dataArrayList.add(new BookData(R.drawable.example_book_img,"엘저넌에게 꽃을","저자 : 대니얼키스","출판사 : 미루출판사","보유자 : 곽건"));
-        dataArrayList.add(new BookData(R.drawable.example_book_img,"엘저넌에게 꽃을","저자 : 대니얼키스","출판사 : 미루출판사","보유자 : 곽건"));
-        dataArrayList.add(new BookData(R.drawable.example_book_img,"엘저넌에게 꽃을","저자 : 대니얼키스","출판사 : 미루출판사","보유자 : 곽건"));
-        dataArrayList.add(new BookData(R.drawable.example_book_img,"엘저넌에게 꽃을","저자 : 대니얼키스","출판사 : 미루출판사","보유자 : 곽건"));
-        dataArrayList.add(new BookData(R.drawable.example_book_img,"엘저넌에게 꽃을","저자 : 대니얼키스","출판사 : 미루출판사","보유자 : 곽건"));
-        dataArrayList.add(new BookData(R.drawable.example_book_img,"엘저넌에게 꽃을","저자 : 대니얼키스","출판사 : 미루출판사","보유자 : 곽건"));
-        dataArrayList.add(new BookData(R.drawable.example_book_img,"엘저넌에게 꽃을","저자 : 대니얼키스","출판사 : 미루출판사","보유자 : 곽건"));
-        dataArrayList.add(new BookData(R.drawable.example_book_img,"엘저넌에게 꽃을","저자 : 대니얼키스","출판사 : 미루출판사","보유자 : 곽건"));
-        dataArrayList.add(new BookData(R.drawable.example_book_img,"엘저넌에게 꽃을","저자 : 대니얼키스","출판사 : 미루출판사","보유자 : 곽건"));
-        dataArrayList.add(new BookData(R.drawable.example_book_img,"엘저넌에게 꽃을","저자 : 대니얼키스","출판사 : 미루출판사","보유자 : 곽건"));
 
 
     }

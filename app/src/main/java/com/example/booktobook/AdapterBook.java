@@ -62,7 +62,7 @@ public class AdapterBook extends RecyclerView.Adapter<AdapterBook.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull AdapterBook.ViewHolder holder, int position) {
 
-       holder.cover.setImageResource(bookDataSet.get(position).book_image);
+//       holder.cover.setImageResource(bookDataSet.get(position).book_image);
        holder.title.setText(bookDataSet.get(position).title);
        holder.author.setText(bookDataSet.get(position).author);
        holder.publisher.setText(bookDataSet.get(position).publisher);

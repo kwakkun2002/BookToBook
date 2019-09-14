@@ -1,8 +1,6 @@
-package com.kys.lg.mocon_btb;
+package com.example.booktobook;
 
 import android.util.Log;
-
-import com.kys.lg.mocon_btb.Datas.BookVo;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
@@ -14,20 +12,20 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Parser {
-    BookVo vo = new BookVo();
+    BookData vo = new BookData();
     String query="";
 
-    public ArrayList<BookVo> connectNaver(int start, String myQuery, ArrayList<BookVo> list){
-        Log.d("asdas","asd");
+    public ArrayList<BookData> connectNaver(int start, String myQuery, ArrayList<BookData> list){
+        Log.d("Parser","start!");
         try{
-//            query= URLEncoder.encode(myQuery,"utf8");
+//           query= URLEncoder.encode(myQuery,"utf8");
             //네이버에 요청할때 쿼리가 간다.
             int count =10;//검색 결과 10건 표시
             String urlStr="https://openapi.naver.com/v1/search/book_adv.xml?d_isbn="+myQuery;
             //URL클래스를 생성하여 위의 경로로 접근
 
             URL url= new URL(urlStr);
-            Log.d("asdas","asd");
+            Log.d("Parser","ready");
 
 
 
@@ -39,26 +37,28 @@ public class Parser {
 
             //네이버 인증 처리
             //발급받은 ID
-            connection.setRequestProperty("X-Naver-Client-Id","F1mNq2kcWEdZkSYiMmZI");
+            String CLIENT_ID = "AxT_Cffh7tMJYt6Hgqvf";
+            String CLIENT_PASSWORD = "MZVhoXVAmW";
+            connection.setRequestProperty("X-Naver-Client-Id",CLIENT_ID);
             //발급받은 secret
-            connection.setRequestProperty("X-Naver-Client-Secret","u1t_Eg3JRW");
+            connection.setRequestProperty("X-Naver-Client-Secret",CLIENT_PASSWORD);
 
             //위의 URL을 수행하여 받아올 자원을 대입할 객체
             XmlPullParserFactory factory= XmlPullParserFactory.newInstance();
             XmlPullParser parser= factory.newPullParser();
             parser.setInput(connection.getInputStream(),null);//결과물을 inputstream으로 읽어옴 parser:xml을 들고온다.
 
-            Log.d("asdas","asd");
+            Log.d("Parser","read");
             //파서를 통하여 각 요소들을 반복수행 처리
             int parserEvent= parser.getEventType();
-            while (parserEvent !=XmlPullParser.END_DOCUMENT){
+            while (parserEvent != XmlPullParser.END_DOCUMENT){
 
 
-                if(parserEvent==XmlPullParser.START_TAG) {
+                if(parserEvent== XmlPullParser.START_TAG) {
 
                     String tagName= parser.getName();
                     if(tagName.equalsIgnoreCase("title")) { //title태그 발견
-                        vo=new BookVo(null,null,null,null,null);
+                        vo=new BookData();
                         String title= parser.nextText();
 
                         //네이버는 검색어의 강조를 위해<b> 태그를 붙여서 결과를
@@ -68,14 +68,14 @@ public class Parser {
                         Matcher matcher= pattern.matcher(title);
                         if(matcher.find()){
                             String s_title=matcher.replaceAll("");
-                            vo.setB_title(s_title);
+                            vo.title = s_title;
                         }else{
-                            vo.setB_title(title);
+                            vo.title = title;
                         }
 
                     }else if(tagName.equalsIgnoreCase("image")){
                         String img= parser.nextText();
-                        vo.setB_img(img);
+                        vo.book_image = img;
                     }else if(tagName.equalsIgnoreCase("author")){
 
                         String author=parser.nextText();
@@ -84,14 +84,14 @@ public class Parser {
                         Matcher matcher= pattern.matcher(author);
                         if(matcher.find()){
                             String s_author=matcher.replaceAll("");
-                            vo.setB_auth(s_author);
+                            vo.author = s_author;
                         }else{
-                            vo.setB_auth(author);
+                            vo.author = author;
                         }
 
                     }else if(tagName.equalsIgnoreCase("publisher")){
                         String publisher=parser.nextText();
-                        vo.setB_publisher(publisher);
+                        vo.publisher = publisher;
                         list.add(vo);
                     }
 
@@ -106,10 +106,10 @@ public class Parser {
         }
 
 
-//        Log.d("AAAauth",vo.getB_auth());
-//        Log.d("AAAimg",vo.getB_img());
-//        Log.d("AAApublisher",vo.getB_publisher());
-//        Log.d("AAAtitle",vo.getB_title());
+        Log.d("Parser-auth",vo.author);
+        Log.d("Parser-img",vo.book_image);
+        Log.d("Parser-publisher",vo.publisher);
+        Log.d("Parser-title",vo.title);
 
         return list;
     }//connectNaver()
