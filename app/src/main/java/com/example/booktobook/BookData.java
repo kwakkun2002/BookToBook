@@ -6,7 +6,25 @@ class BookData{
     public String author;
     public String publisher;
     public String haver;
+    public String place;
+    public String time;
+    public boolean abled;
 
+
+    public BookData(){
+
+    }
+
+    public BookData(String book_image, String title, String author, String publisher, String haver, String place, String time) {
+        this.book_image = book_image;
+        this.title = title;
+        this.author = author;
+        this.publisher = publisher;
+        this.haver = haver;
+        this.place = place;
+        this.time = time;
+        this.abled = true;
+    }
 
     public String getBook_image() {
         return book_image;
@@ -48,17 +66,27 @@ class BookData{
         this.haver = haver;
     }
 
-    public BookData(){
-
+    public String getPlace() {
+        return place;
     }
 
-    public BookData(String book_image,String title,String author,String publisher,String haver){
-        this.book_image = book_image;
-        this.title = title;
-        this.author = author;
-        this.publisher = publisher;
-        this.haver = haver;
+    public void setPlace(String place) {
+        this.place = place;
     }
 
+    public String getTime() {
+        return time;
+    }
 
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public boolean isAbled() {
+        return abled;
+    }
+
+    public void setAbled(boolean abled) {
+        this.abled = abled;
+    }
 }

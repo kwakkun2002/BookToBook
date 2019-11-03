@@ -1,5 +1,6 @@
 package com.example.booktobook;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,13 +10,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 
 public class AdapterShelfFragment extends RecyclerView.Adapter<AdapterShelfFragment.ViewHolder> {
 
     private ArrayList<MyBookData> bookDataSet;
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public static class ViewHolder extends RecyclerView.ViewHolder{
 
         public ImageView cover;
         public TextView title;
@@ -58,10 +61,16 @@ public class AdapterShelfFragment extends RecyclerView.Adapter<AdapterShelfFragm
     @Override
     public void onBindViewHolder(@NonNull AdapterShelfFragment.ViewHolder holder, int position) {
 
-       holder.cover.setImageResource(bookDataSet.get(position).book_image);
+
+        Glide.with(holder.itemView.getContext())
+                .load(bookDataSet.get(position).getBook_image())
+                .into(holder.cover);
+
        holder.title.setText(bookDataSet.get(position).title);
        holder.author.setText(bookDataSet.get(position).author);
        holder.publisher.setText(bookDataSet.get(position).publisher);
+
+        Log.d("AdapterShelf-test-title",bookDataSet.get(position).title);
     }
 
     @Override

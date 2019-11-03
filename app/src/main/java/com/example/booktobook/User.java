@@ -1,17 +1,34 @@
 package com.example.booktobook;
 
+
+import java.util.List;
+
 public class User {
     private String id;
     private String password;
+    private List<Alert> alert;
+    private List<String> myBook;
+    private String place;
+    private String time;
 
     public User() {
     }
 
-    public User(String id, String password) {
+    public User(String id, String password, String place, String time) {
         this.id = id;
         this.password = password;
+        this.place = place;
+        this.time = time;
     }
 
+    public User(String id, String password, List<Alert> alert, List<String> myBook, String place, String time) {
+        this.id = id;
+        this.password = password;
+        this.alert = alert;
+        this.myBook = myBook;
+        this.place = place;
+        this.time = time;
+    }
 
     public String getId() {
         return id;
@@ -27,5 +44,38 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+
+    public List<Alert> getAlert() {
+        return alert;
+    }
+
+    public void setAlert(List<Alert> alert) {
+        this.alert = alert;
+    }
+
+    public List<String> getMyBook() {
+        return myBook;
+    }
+
+    public void setMyBook(List<String> myBook) {
+        this.myBook = myBook;
+    }
+
+    public String getPlace() {
+        return place;
+    }
+
+    public void setPlace(String place) {
+        this.place = place;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 }

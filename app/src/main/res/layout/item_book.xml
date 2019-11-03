@@ -16,6 +16,8 @@
 
         <TextView
             android:id="@+id/item_book_textView_title"
+            android:maxLines="1"
+            android:ellipsize="end"
             android:layout_margin="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -67,6 +69,27 @@
                     android:textSize="20sp"
                     android:textColor="@color/black"
                     android:text="보유자 : 곽건"/>
+
+
+                <TextView
+                    android:id="@+id/item_book_textView_place"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:textSize="20sp"
+                    android:textColor="@color/black"
+                    android:text="만날 장소 : 2-6"/>
+
+
+
+                <TextView
+                    android:id="@+id/item_book_textView_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:textSize="20sp"
+                    android:textColor="@color/black"
+                    android:text="만날시간 : 점심시간"/>
 
                 <Button
                     android:id="@+id/item_book_button_borrow"

@@ -36,7 +36,7 @@ public class SearchActivity extends AppCompatActivity {
 
         //set adapter
         dataArrayList = new ArrayList<>();
-        adapter = new AdapterBook(dataArrayList);
+//        adapter = new AdapterBook(dataArrayList,);
         recyclerView.setAdapter(adapter);
 
 

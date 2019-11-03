@@ -6,6 +6,7 @@
     >
 
     <ImageButton
+        android:id="@+id/activity_enroll_imageButton_back"
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_marginTop="20dp"
@@ -39,7 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:textSize="20sp"
+            android:textSize="15sp"
             android:textColor="@color/black"
             android:text="제목 : 엘저넌에게 꽃을"/>
 
@@ -49,7 +50,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:textSize="20sp"
+            android:textSize="15sp"
             android:textColor="@color/black"
             android:text="저자 : 대니얼 키스"/>
         <TextView
@@ -57,7 +58,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:textSize="20sp"
+            android:textSize="15sp"
             android:textColor="@color/black"
             android:text="출판사 : 민음출판사"/>
 

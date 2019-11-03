@@ -35,7 +35,7 @@ public class EnrollFragment extends Fragment {
     Intent intent;
     Parser parser;
     ImageButton enrollButton;
-    ArrayList<BookData> arrayList = new ArrayList<>();
+    ArrayList<BookData> arrayList;
     Bitmap bitmap;
 
     @Nullable
@@ -44,6 +44,7 @@ public class EnrollFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_enroll,container,false);
 
         enrollButton = view.findViewById(R.id.imgButton_fragment_enroll);
+        arrayList = new ArrayList<>();
 
         //등록 버튼을 누르면
         enrollButton.setOnClickListener(new View.OnClickListener() {
@@ -101,6 +102,7 @@ public class EnrollFragment extends Fragment {
             intent.putExtra("title",arrayList.get(0).getTitle());
             intent.putExtra("publisher",arrayList.get(0).getPublisher());
             intent.putExtra("auth",arrayList.get(0).getAuthor());
+            intent.putExtra("img_url",arrayList.get(0).book_image);
 
         }
 
@@ -128,6 +130,8 @@ public class EnrollFragment extends Fragment {
                 super.onPostExecute(o);
                 intent.putExtra("img",bitmap);
                 startActivity(intent);
+                arrayList = new ArrayList<BookData>();
+
 //                pictureEnroll.setVisibility(View.GONE);
 //                imageView.setImageBitmap(bitmap);
 //                imageView.setVisibility(View.VISIBLE);
