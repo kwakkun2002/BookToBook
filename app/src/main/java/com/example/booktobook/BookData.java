@@ -9,13 +9,14 @@ class BookData{
     public String place;
     public String time;
     public boolean abled;
+    public int able_count;
 
 
     public BookData(){
 
     }
 
-    public BookData(String book_image, String title, String author, String publisher, String haver, String place, String time) {
+    public BookData(String book_image, String title, String author, String publisher, String haver, String place, String time,int able_count) {
         this.book_image = book_image;
         this.title = title;
         this.author = author;
@@ -24,6 +25,7 @@ class BookData{
         this.place = place;
         this.time = time;
         this.abled = true;
+        this.able_count = able_count;
     }
 
     public String getBook_image() {
@@ -88,5 +90,13 @@ class BookData{
 
     public void setAbled(boolean abled) {
         this.abled = abled;
+    }
+
+    public void setAble_count(int able_count){
+        this.able_count = able_count;
+    }
+
+    public int getAbled_count(){
+        return this.able_count;
     }
 }

@@ -13,9 +13,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
@@ -53,7 +57,7 @@ public class AdapterBook extends RecyclerView.Adapter<AdapterBook.ViewHolder> {
             borrow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    FirebaseFirestore db = FirebaseFirestore.getInstance();
+                    final FirebaseFirestore db = FirebaseFirestore.getInstance();
                     DocumentReference documentReference = db.collection("Users")
                             .document(haver.getText().toString().substring(3));
                     documentReference.update("alert", FieldValue.arrayUnion(
@@ -61,7 +65,7 @@ public class AdapterBook extends RecyclerView.Adapter<AdapterBook.ViewHolder> {
                                     place.getText().toString().substring(3),
                                     time.getText().toString().substring(3),
                                     "빌려줌",
-                                    title.getText().toString().substring(3),
+                                    title.getText().toString(),
                                     id.toString()
                             )
                     ));
@@ -72,10 +76,34 @@ public class AdapterBook extends RecyclerView.Adapter<AdapterBook.ViewHolder> {
                                     place.getText().toString().substring(3),
                                     time.getText().toString().substring(3),
                                     "빌림",
-                                    title.getText().toString().substring(3),
+                                    title.getText().toString(),
                                     haver.getText().toString().substring(3)
                             )
                     ));
+
+                    //빌리기를 누르자마자 바로 비활성화
+                    db.collection("Books")
+                            .whereEqualTo("title",title.getText().toString())
+                            .get()
+                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        for (QueryDocumentSnapshot document : task.getResult()) {
+                                            Log.d("AdapterBook", document.getId() + " => " + document.getData());
+                                            db.collection("Books").document(document.getId())
+                                                    .update(
+                                                            "abled", false
+                                                    );
+                                        }
+                                    } else {
+                                        Log.d("AdapterBook", "Error getting documents: ", task.getException());
+                                    }
+                                }
+                            });
+
+
+
                 }
             });
 

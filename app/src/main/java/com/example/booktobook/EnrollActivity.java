@@ -75,7 +75,7 @@ public class EnrollActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 SharedPreferences pref = getSharedPreferences("pref",MODE_PRIVATE);
-                BookData bookData = new BookData(bookImg_url,title,author,publisher,pref.getString("ID",""),place,time);
+                BookData bookData = new BookData(bookImg_url,title,author,publisher,pref.getString("ID",""),place,time,0);
 
                 //책 등록
                 db.collection("Books").add(bookData)

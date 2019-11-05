@@ -41,7 +41,7 @@ public class LoginActivity extends AppCompatActivity {
         SharedPreferences preferences = getSharedPreferences("pref",MODE_PRIVATE);
         Boolean isLoginOnce = preferences.getBoolean("isLogin",false);
 
-        //만약 로그인한 적이 있다면 그냥 로그인
+//        //만약 로그인한 적이 있다면 그냥 로그인
         if(isLoginOnce){
             Intent intent = new Intent(getApplicationContext(),MainActivity.class);
             Toast.makeText(LoginActivity.this, preferences.getString("ID","unknown")+"님 반갑습니다!", Toast.LENGTH_SHORT).show();

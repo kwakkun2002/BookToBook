@@ -85,17 +85,18 @@ public class ShowFragment extends Fragment{
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
 //                                Log.d("ShowFragment", document.getId() + " => " + document.getData());
-                                dataArrayList.add(new BookData(
-                                        document.get("book_image").toString(),
-                                        document.get("title").toString(),
-                                        "저자:"+document.get("author").toString(),
-                                        "출판사:"+document.get("publisher").toString(),
-                                        "주인:"+document.get("haver").toString(),
-                                        "장소:"+document.get("place").toString(),
-                                        "시간:"+document.get("time").toString()
-                                ));
-
-
+                                if(document.getBoolean("abled")){
+                                    dataArrayList.add(new BookData(
+                                            document.get("book_image").toString(),
+                                            document.get("title").toString(),
+                                            "저자:"+document.get("author").toString(),
+                                            "출판사:"+document.get("publisher").toString(),
+                                            "주인:"+document.get("haver").toString(),
+                                            "장소:"+document.get("place").toString(),
+                                            "시간:"+document.get("time").toString(),
+                                            0
+                                    ));
+                                }
                                 adapter.notifyDataSetChanged();
                             }
                         } else {
