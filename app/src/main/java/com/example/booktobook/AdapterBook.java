@@ -1,6 +1,8 @@
 package com.example.booktobook;
 
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,13 +25,19 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
+import java.util.prefs.Preferences;
 
 public class AdapterBook extends RecyclerView.Adapter<AdapterBook.ViewHolder> {
 
-    private ArrayList<BookData> bookDataSet;
+    private static ArrayList<BookData> bookDataSet;
     private static String id;
+    private static String TIME;
+    private static String PLACE;
 
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+
+
+
+    public class ViewHolder extends RecyclerView.ViewHolder{
 
         public ImageView cover;
         public TextView title;
@@ -57,6 +65,10 @@ public class AdapterBook extends RecyclerView.Adapter<AdapterBook.ViewHolder> {
             borrow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
+
+
+                    //양 계정에 알림을 추가
                     final FirebaseFirestore db = FirebaseFirestore.getInstance();
                     DocumentReference documentReference = db.collection("Users")
                             .document(haver.getText().toString().substring(3));
@@ -82,6 +94,7 @@ public class AdapterBook extends RecyclerView.Adapter<AdapterBook.ViewHolder> {
                     ));
 
                     //빌리기를 누르자마자 바로 비활성화
+                    //  책의 haver를 주인에서 나로 바꿔주자
                     db.collection("Books")
                             .whereEqualTo("title",title.getText().toString())
                             .get()
@@ -93,8 +106,12 @@ public class AdapterBook extends RecyclerView.Adapter<AdapterBook.ViewHolder> {
                                             Log.d("AdapterBook", document.getId() + " => " + document.getData());
                                             db.collection("Books").document(document.getId())
                                                     .update(
-                                                            "abled", false
+                                                            "abled", false,
+                                                            "haver",id,
+                                                            "time",TIME,
+                                                            "place",PLACE
                                                     );
+
                                         }
                                     } else {
                                         Log.d("AdapterBook", "Error getting documents: ", task.getException());
@@ -102,7 +119,11 @@ public class AdapterBook extends RecyclerView.Adapter<AdapterBook.ViewHolder> {
                                 }
                             });
 
-
+                    //해당 아이템 리사이클러에서 삭제
+                    final int adapterPosition = getAdapterPosition();
+                    bookDataSet.remove(adapterPosition);
+                    notifyItemRemoved(adapterPosition);
+                    notifyItemRangeChanged(adapterPosition,bookDataSet.size());
 
                 }
             });
@@ -113,9 +134,12 @@ public class AdapterBook extends RecyclerView.Adapter<AdapterBook.ViewHolder> {
 
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public AdapterBook(ArrayList<BookData> dataset,String id) {
+    public AdapterBook(ArrayList<BookData> dataset, Context context) {
         bookDataSet = dataset;
-        AdapterBook.id = id;
+        SharedPreferences preferences = context.getSharedPreferences("pref",0);
+        id = preferences.getString("ID","");
+        PLACE = preferences.getString("place","");
+        TIME = preferences.getString("time","");
     }
 
     // Create new views
@@ -159,6 +183,8 @@ public class AdapterBook extends RecyclerView.Adapter<AdapterBook.ViewHolder> {
     public int getItemCount() {
         return bookDataSet.size();
     }
+
+
 }
 
 

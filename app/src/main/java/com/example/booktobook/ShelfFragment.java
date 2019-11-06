@@ -26,6 +26,8 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -76,43 +78,34 @@ public class ShelfFragment extends Fragment {
         recyclerView.setAdapter(adapter);
 
 
-        DocumentReference documentReference = db.collection("Users").document(id);
-        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if(task.isSuccessful()){
-                    DocumentSnapshot documentSnapshot = task.getResult();
-                    if(documentSnapshot.exists()) {
-                        if (documentSnapshot.getData().get("myBook") != null) {
-                            List list = (List) documentSnapshot.getData().get("myBook");
-                            for (int i = 0; i < list.size(); i++) {
-                                HashMap map = (HashMap) list.get(i);
+        //  수정: User의 myBooks를 삭제하고 그냥 Books에서 haver가 나 인걸 가져오자
+
+        db.collection("Books")
+                .whereEqualTo("haver", id)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                //Log.d(TAG, document.getId() + " => " + document.getData());
+
                                 dataArrayList.add(new MyBookData(
-                                        map.get("book_image").toString(),
-                                        map.get("title").toString(),
-                                        "저자:" + map.get("author").toString(),
-                                        "출판사:" + map.get("publisher").toString()));
+                                        document.get("book_image").toString(),
+                                        document.get("title").toString(),
+                                        "저자:"+document.get("author").toString(),
+                                        "출판사:"+document.get("publisher").toString()
+                                ));
 
 
                                 adapter.notifyDataSetChanged();
 
                             }
+                        } else {
+                            Log.d("Error", "Error getting documents: ", task.getException());
                         }
                     }
-                    else{
-                        Log.d("TAG", "No such document");
-                    }
-                }
-                else {
-                    Log.d("TAG", "get failed with ", task.getException());
-                }
-            }
-        });
-
-
-
-
-
+                });
 
         return view;
     }

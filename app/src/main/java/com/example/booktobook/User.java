@@ -7,7 +7,6 @@ public class User {
     private String id;
     private String password;
     private List<Alert> alert;
-    private List<String> myBook;
     private String place;
     private String time;
 
@@ -21,11 +20,10 @@ public class User {
         this.time = time;
     }
 
-    public User(String id, String password, List<Alert> alert, List<String> myBook, String place, String time) {
+    public User(String id, String password, List<Alert> alert, String place, String time) {
         this.id = id;
         this.password = password;
         this.alert = alert;
-        this.myBook = myBook;
         this.place = place;
         this.time = time;
     }
@@ -53,14 +51,6 @@ public class User {
 
     public void setAlert(List<Alert> alert) {
         this.alert = alert;
-    }
-
-    public List<String> getMyBook() {
-        return myBook;
-    }
-
-    public void setMyBook(List<String> myBook) {
-        this.myBook = myBook;
     }
 
     public String getPlace() {

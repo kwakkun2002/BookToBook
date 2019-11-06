@@ -75,7 +75,7 @@ public class EnrollActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 SharedPreferences pref = getSharedPreferences("pref",MODE_PRIVATE);
-                BookData bookData = new BookData(bookImg_url,title,author,publisher,pref.getString("ID",""),place,time,0);
+                BookData bookData = new BookData(bookImg_url,title,author,publisher,pref.getString("ID",""),place,time);
 
                 //책 등록
                 db.collection("Books").add(bookData)
@@ -93,8 +93,8 @@ public class EnrollActivity extends AppCompatActivity {
                         });
 
                 //나의 책장에 추가
-                db.collection("Users").document(ID)
-                        .update("myBook", FieldValue.arrayUnion(new MyBookData(bookImg_url,title,author,publisher)));
+//                db.collection("Users").document(ID)
+//                        .update("myBook", FieldValue.arrayUnion(new MyBookData(bookImg_url,title,author,publisher)));
 
 
                 //뒤로 가기

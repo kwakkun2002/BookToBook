@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -73,7 +74,7 @@ public class ShowFragment extends Fragment{
 
 
         dataArrayList = new ArrayList<>();
-        adapter = new AdapterBook(dataArrayList,id);
+        adapter = new AdapterBook(dataArrayList,getContext());
         recyclerView.setAdapter(adapter);
 
 
@@ -93,8 +94,7 @@ public class ShowFragment extends Fragment{
                                             "출판사:"+document.get("publisher").toString(),
                                             "주인:"+document.get("haver").toString(),
                                             "장소:"+document.get("place").toString(),
-                                            "시간:"+document.get("time").toString(),
-                                            0
+                                            "시간:"+document.get("time").toString()
                                     ));
                                 }
                                 adapter.notifyDataSetChanged();

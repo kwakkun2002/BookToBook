@@ -4,6 +4,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -11,6 +12,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
@@ -24,6 +30,7 @@ public class AdapterShelfFragment extends RecyclerView.Adapter<AdapterShelfFragm
         public TextView title;
         public TextView author;
         public TextView publisher;
+        public Button re_enroll_button;
 
 
         public ViewHolder(@NonNull View itemView) {
@@ -32,6 +39,38 @@ public class AdapterShelfFragment extends RecyclerView.Adapter<AdapterShelfFragm
             title = itemView.findViewById(R.id.item_mybook_textView_title);
             author = itemView.findViewById(R.id.item_mybook_textView_author);
             publisher = itemView.findViewById(R.id.item_mybook_textView_publisher);
+            re_enroll_button = itemView.findViewById(R.id.item_mybook_button_release);
+
+            //재등록버튼:그냥 해당책을 abled를 true로 만들어주면 된다.
+            re_enroll_button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+
+                    final FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+                    db.collection("Books")
+                            .whereEqualTo("title",title.getText().toString())
+                            .get()
+                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        for (QueryDocumentSnapshot document : task.getResult()) {
+                                            Log.d("AdapterBook", document.getId() + " => " + document.getData());
+                                            db.collection("Books").document(document.getId())
+                                                    .update(
+                                                            "abled",true
+                                                    );
+                                        }
+                                    } else {
+                                        Log.d("AdapterBook", "Error getting documents: ", task.getException());
+                                    }
+                                }
+                            });
+
+                }
+            });
 
         }
     }

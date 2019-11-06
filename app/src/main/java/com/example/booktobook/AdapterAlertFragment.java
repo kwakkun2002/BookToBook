@@ -22,7 +22,9 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -56,49 +58,40 @@ public class AdapterAlertFragment extends RecyclerView.Adapter<AdapterAlertFragm
                 @Override
                 public void onClick(View view) {
                     //확인을 눌렀으니 리사이클러뷰에서 알림을 삭제하고 1.
-                    //서버에서의 알림도 삭제 2.
-                    //  카운트를 1 증가시키고 2-1.
-                    //abled_count가 2이면:
-                    //  그 카운트를 0으로 만들고 3.
-                    //  그 책을 현주인책장에서 삭제 4.
-                    //  그 책을 새로운주인책장에 추가 5.
+                    //  서버에서의 알림도 삭제 2.
+
 
 
                     //1.
-                    alertDataSet.remove(getAdapterPosition());
-                    notifyItemRemoved(getAdapterPosition());
-                    notifyItemRangeChanged(getAdapterPosition(),alertDataSet.size());
+                    final int adapterPosition = getAdapterPosition();
+                    alertDataSet.remove(adapterPosition);
+                    notifyItemRemoved(adapterPosition);
+                    notifyItemRangeChanged(adapterPosition,alertDataSet.size());
 
-                    //2.
                     final FirebaseFirestore db = FirebaseFirestore.getInstance();
-                    final DocumentReference alertDocumentReference = db.collection("Users")
-                            .document(id);
-                    alertDocumentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    //2.
+                    final DocumentReference documentReference = db.collection("Users").document(id);
+                    documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                         @Override
-                        public void onSuccess(DocumentSnapshot documentSnapshot) {
-                            Alert alert = documentSnapshot.toObject(Alert.class);
-                            alertDocumentReference.update("alert",FieldValue.arrayRemove(alert));
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if(task.isSuccessful()){
+                                DocumentSnapshot documentSnapshot = task.getResult();
+                                if(documentSnapshot.exists()) {
+                                    if (documentSnapshot.getData().get("alert") != null) {
+                                        List list = (List) documentSnapshot.getData().get("alert");
+                                        Log.d("LOG", String.valueOf(adapterPosition));
+                                        documentReference.update("alert", FieldValue.arrayRemove(list.get(adapterPosition)));
+                                    }
+                                }
+                                else{
+                                    Log.d("TAG", "No such document");
+                                }
+                            }
+                            else {
+                                Log.d("TAG", "get failed with ", task.getException());
+                            }
                         }
                     });
-
-                    
-                    //2-1
-                    alertDocumentReference.update("able_count",FieldValue.increment(1));
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                 }
             });
         }
