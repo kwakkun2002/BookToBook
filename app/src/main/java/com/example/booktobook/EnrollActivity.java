@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -96,7 +97,7 @@ public class EnrollActivity extends AppCompatActivity {
 //                db.collection("Users").document(ID)
 //                        .update("myBook", FieldValue.arrayUnion(new MyBookData(bookImg_url,title,author,publisher)));
 
-
+                Toast.makeText(EnrollActivity.this, "책을 등록했습니다!", Toast.LENGTH_SHORT).show();
                 //뒤로 가기
                 onBackPressed();
             }

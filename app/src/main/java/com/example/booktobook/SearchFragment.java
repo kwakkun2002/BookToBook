@@ -16,8 +16,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -52,25 +56,30 @@ public class SearchFragment extends Fragment {
                 onDataPassListener.onDataPass(abc);
                 // activity.onDataPass(abc);
                 //onDataPassListener.onDataPass(abc);
-
                 startActivity(i);
-
+                autoCompleteTextView.setText("");
             }
+
         });
         return view;
-
-
     }
 
     private void add() {
         //예시 데이터
-        data.add("자바의 정석");
-        data.add("자바의 정석2");
-        data.add("코스모스");
-        data.add("열두 발자국");
-        data.add("사피엔스");
-        data.add("Animal");
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference BOOKS = db.collection("Books");
 
+        BOOKS.orderBy("title").get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+
+                        for (DocumentSnapshot documentSnapshot:queryDocumentSnapshots){
+                            BookData bookData = documentSnapshot.toObject(BookData.class);
+                            data.add(bookData.getTitle());
+                        }
+                    }
+                });
     }
 
     public interface OnDataPassListener {
@@ -98,6 +107,6 @@ public class SearchFragment extends Fragment {
     }
 
 
-}
 
+}
 

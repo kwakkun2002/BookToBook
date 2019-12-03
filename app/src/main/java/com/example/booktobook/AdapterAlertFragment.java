@@ -122,7 +122,7 @@ public class AdapterAlertFragment extends RecyclerView.Adapter<AdapterAlertFragm
                         alertDataSet.get(position).getWho().toString()+"]에게서");
 
         holder.when_place.setText(
-                        alertDataSet.get(position).getTime()+" "+alertDataSet.get(position).getPlace()+"]에서");
+                        "["+alertDataSet.get(position).getTime()+" "+alertDataSet.get(position).getPlace()+"]에서");
 
     }
 
