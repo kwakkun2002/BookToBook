@@ -6,26 +6,18 @@ import java.util.List;
 public class User {
     private String id;
     private String password;
+    private int point;
+    private int uploaded_book_count;
     private List<Alert> alert;
-    private String place;
-    private String time;
 
     public User() {
     }
 
-    public User(String id, String password, String place, String time) {
+    public User(String id, String password) {
         this.id = id;
         this.password = password;
-        this.place = place;
-        this.time = time;
-    }
-
-    public User(String id, String password, List<Alert> alert, String place, String time) {
-        this.id = id;
-        this.password = password;
-        this.alert = alert;
-        this.place = place;
-        this.time = time;
+        this.point = 0;
+        this.uploaded_book_count = 0;
     }
 
     public String getId() {
@@ -44,6 +36,21 @@ public class User {
         this.password = password;
     }
 
+    public int getPoint() {
+        return point;
+    }
+
+    public void setPoint(int point) {
+        this.point = point;
+    }
+
+    public int getUploaded_book_count() {
+        return uploaded_book_count;
+    }
+
+    public void setUploaded_book_count(int uploaded_book_count) {
+        this.uploaded_book_count = uploaded_book_count;
+    }
 
     public List<Alert> getAlert() {
         return alert;
@@ -51,21 +58,5 @@ public class User {
 
     public void setAlert(List<Alert> alert) {
         this.alert = alert;
-    }
-
-    public String getPlace() {
-        return place;
-    }
-
-    public void setPlace(String place) {
-        this.place = place;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
     }
 }

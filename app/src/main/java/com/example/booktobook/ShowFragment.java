@@ -1,5 +1,6 @@
 package com.example.booktobook;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -16,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
@@ -47,6 +49,7 @@ import static android.content.Context.MODE_PRIVATE;
 public class ShowFragment extends Fragment{
 
     private RecyclerView recyclerView;
+    public SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
     private ArrayList<BookData> dataArrayList;
@@ -60,6 +63,14 @@ public class ShowFragment extends Fragment{
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         recyclerView = view.findViewById(R.id.recycler_view_show);
+        swipeRefreshLayout = view.findViewById(R.id.refresh_showfragment);
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                adapter.notifyDataSetChanged();
+            }
+        });
 
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
@@ -111,5 +122,8 @@ public class ShowFragment extends Fragment{
 
         return view;
     }
+
+
+
 }
 

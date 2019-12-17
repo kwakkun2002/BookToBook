@@ -25,8 +25,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText editText_id;
     private EditText editText_password;
-    private EditText editText_place;
-    private EditText editText_time;
     private Button button_signUp;
     private FirebaseFirestore db;
     private String id;
@@ -42,11 +40,11 @@ public class LoginActivity extends AppCompatActivity {
         Boolean isLoginOnce = preferences.getBoolean("isLogin",false);
 
 //        //만약 로그인한 적이 있다면 그냥 로그인
-        if(isLoginOnce){
-            Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-            Toast.makeText(LoginActivity.this, preferences.getString("ID","unknown")+"님 반갑습니다!", Toast.LENGTH_SHORT).show();
-            startActivity(intent);
-        }
+//        if(isLoginOnce){
+//            Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+//            Toast.makeText(LoginActivity.this, preferences.getString("ID","unknown")+"님 반갑습니다!", Toast.LENGTH_SHORT).show();
+//            startActivity(intent);
+//        }
 
          db = FirebaseFirestore.getInstance();
         FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
@@ -56,8 +54,6 @@ public class LoginActivity extends AppCompatActivity {
 
         editText_id = findViewById(R.id.editText_id);
         editText_password = findViewById(R.id.editText_password);
-        editText_place = findViewById(R.id.editText_place);
-        editText_time = findViewById(R.id.editText_time);
 
         button_signUp = findViewById(R.id.button_signUp);
 
@@ -74,8 +70,6 @@ public class LoginActivity extends AppCompatActivity {
 
                 final String id = editText_id.getText().toString();
                 final String password = editText_password.getText().toString();
-                final String place = editText_place.getText().toString();
-                final String time = editText_time.getText().toString();
 
                 DocumentReference documentReference = db.collection("Users").document(id);
                 documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -87,7 +81,7 @@ public class LoginActivity extends AppCompatActivity {
                                 Log.d("LoginActivity-signUp", "already exist : "+id);
                                 Toast.makeText(LoginActivity.this, "이미 존재하는 아이디입니다!", Toast.LENGTH_SHORT).show();
                             }else{//해당 도큐먼트가 존재하지 않는다 => 아이디가 없다 => 새로 추가
-                                User user = new User(id,password,place,time);
+                                User user = new User(id,password);
                                 db.collection("Users").document(id).set(user);
                                 Log.d("LoginActivity-signUp", "new User made : "+user.getId());
                                 Toast.makeText(LoginActivity.this, user.getId()+"님 반갑습니다!", Toast.LENGTH_SHORT).show();
@@ -97,8 +91,6 @@ public class LoginActivity extends AppCompatActivity {
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
                                 editor.putBoolean("isLogin",true);
                                 editor.putString("ID",id.toString());
-                                editor.putString("place",place.toString());
-                                editor.putString("time",time.toString());
                                 editor.apply();
 
 

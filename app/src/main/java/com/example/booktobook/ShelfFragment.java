@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
@@ -38,7 +39,7 @@ import static android.content.Context.MODE_PRIVATE;
 public class ShelfFragment extends Fragment {
 
     private RecyclerView recyclerView;
-
+    public SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
     private TextView textView_shelf;
@@ -56,6 +57,15 @@ public class ShelfFragment extends Fragment {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         recyclerView  = view.findViewById(R.id.recycler_view_shelf);
+        swipeRefreshLayout = view.findViewById(R.id.refresh_shelffragment);
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                adapter.notifyDataSetChanged();
+            }
+        });
+
         textView_shelf = view.findViewById(R.id.fragment_shelf_myShelf_textView);
 
 
