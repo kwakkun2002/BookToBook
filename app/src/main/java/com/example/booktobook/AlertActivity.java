@@ -3,13 +3,11 @@ package com.example.booktobook;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -19,35 +17,30 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import static android.content.Context.MODE_PRIVATE;
-
-public class AlertFragment extends Fragment {
+public class AlertActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
-    public SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
     private ArrayList<Alert> dataArrayList;
+    public ImageButton alertactivity_backbutton;
 
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_alert);
 
-        View view =  inflater.inflate(R.layout.fragment_alert,container,false);
-
-        recyclerView = view.findViewById(R.id.recycler_view_alert);
-        swipeRefreshLayout = view.findViewById(R.id.refresh_showfragment);
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        recyclerView = findViewById(R.id.recycler_view_alert);
+        alertactivity_backbutton = findViewById(R.id.activity_alert_back_button);
+        alertactivity_backbutton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onRefresh() {
-                adapter.notifyDataSetChanged();
+            public void onClick(View view) {
+                onBackPressed();
             }
         });
 
@@ -55,16 +48,16 @@ public class AlertFragment extends Fragment {
         // in content do not change the layout size of the RecyclerView
         recyclerView.setHasFixedSize(true);
 
-        SharedPreferences pref = this.getActivity().getSharedPreferences("pref", MODE_PRIVATE);
+        SharedPreferences pref = this.getSharedPreferences("pref", MODE_PRIVATE);
         String id = pref.getString("ID", "");
 
         // use a linear layout manager
-        layoutManager = new LinearLayoutManager(getActivity());
+        layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
         //set adapter
         dataArrayList = new ArrayList<>();
-        adapter = new AdapterAlertFragment(dataArrayList,id);
+        adapter = new AdapterAlert(dataArrayList,id);
         recyclerView.setAdapter(adapter);
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -107,13 +100,5 @@ public class AlertFragment extends Fragment {
                 }
             }
         });
-
-
-
-
-
-
-
-        return view;
     }
 }

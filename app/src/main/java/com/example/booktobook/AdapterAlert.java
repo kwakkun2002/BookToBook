@@ -1,37 +1,29 @@
 package com.example.booktobook;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.multidex.MultiDex;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 @SuppressLint("SetTextI18n")
-public class AdapterAlertFragment extends RecyclerView.Adapter<AdapterAlertFragment.ViewHolder> {
+public class AdapterAlert extends RecyclerView.Adapter<AdapterAlert.ViewHolder> {
 
     private ArrayList<Alert> alertDataSet;
     private static String id;
@@ -42,8 +34,6 @@ public class AdapterAlertFragment extends RecyclerView.Adapter<AdapterAlertFragm
         public TextView title_haver;
         public TextView when_place;
         public ImageButton alert_button;
-
-
 
 
         public ViewHolder(@NonNull View itemView) {
@@ -98,9 +88,9 @@ public class AdapterAlertFragment extends RecyclerView.Adapter<AdapterAlertFragm
     }
 
 
-    public AdapterAlertFragment(ArrayList<Alert> dataset,String id){
+    public AdapterAlert(ArrayList<Alert> dataset, String id){
         alertDataSet = dataset;
-        AdapterAlertFragment.id = id;
+        AdapterAlert.id = id;
     }
 
     @NonNull

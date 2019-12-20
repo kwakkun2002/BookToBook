@@ -21,7 +21,7 @@
             android:layout_margin="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="30sp"
+            android:textSize="20sp"
             android:textColor="@color/primaryColor"
             android:text="나미야 잡화점의 기적"/>
 
@@ -69,27 +69,6 @@
                     android:textSize="20sp"
                     android:textColor="@color/black"
                     android:text="보유자 : 곽건"/>
-
-
-                <TextView
-                    android:id="@+id/item_book_textView_place"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:textSize="20sp"
-                    android:textColor="@color/black"
-                    android:text="만날 장소 : 2-6"/>
-
-
-
-                <TextView
-                    android:id="@+id/item_book_textView_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:textSize="20sp"
-                    android:textColor="@color/black"
-                    android:text="만날시간 : 점심시간"/>
 
                 <Button
                     android:id="@+id/item_book_button_borrow"

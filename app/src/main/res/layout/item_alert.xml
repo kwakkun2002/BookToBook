@@ -32,7 +32,7 @@
             android:scaleType="fitXY"
             android:elevation="20dp"
             android:layout_gravity="right"
-            android:src="@drawable/small_check"
+            android:src="@drawable/check"
             android:text="빌리기"/>
 
         <LinearLayout

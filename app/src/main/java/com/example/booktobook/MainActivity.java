@@ -4,12 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.multidex.MultiDex;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.Window;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -20,9 +17,8 @@ public class MainActivity extends AppCompatActivity {
     private EnrollFragment enrollFragment = new EnrollFragment();
     private SearchFragment searchFragment = new SearchFragment();
     private ShowFragment showFragment = new ShowFragment();
-    private AlertFragment alertFragment = new AlertFragment();
+    private ProfileFragment profileFragment = new ProfileFragment();
     private ShelfFragment shelfFragment = new ShelfFragment();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,8 +54,8 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     }
 
-                    case R.id.navigation_alert:{
-                        transaction.replace(R.id.frame_layout,alertFragment).commitAllowingStateLoss();
+                    case R.id.navigation_profile:{
+                        transaction.replace(R.id.frame_layout,profileFragment).commitAllowingStateLoss();
                         break;
                     }
 
@@ -76,6 +72,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        finish();
+        this.finishAffinity();
     }
+
+
 }

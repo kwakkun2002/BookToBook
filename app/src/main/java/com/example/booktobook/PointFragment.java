@@ -16,8 +16,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -25,27 +27,24 @@ import java.util.ArrayList;
 
 import static android.content.Context.MODE_PRIVATE;
 
-public class ShelfFragment extends Fragment {
+public class PointFragment extends Fragment {
 
-    private RecyclerView recyclerView;
+    public RecyclerView recyclerView;
     public SwipeRefreshLayout swipeRefreshLayout;
-    private RecyclerView.Adapter adapter;
-    private RecyclerView.LayoutManager layoutManager;
-    private TextView textView_shelf;
-    private ArrayList<MyBookData> dataArrayList;
-    private String id;
-
+    public RecyclerView.Adapter adapter;
+    public RecyclerView.LayoutManager layoutManager;
+    public ArrayList<User> dataArrayList;
+    public String id;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-        View view = inflater.inflate(R.layout.fragment_shelf,container,false);
-
+        View view = inflater.inflate(R.layout.fragment_rank,container,false);
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        recyclerView  = view.findViewById(R.id.recycler_view_shelf);
+        recyclerView  = view.findViewById(R.id.recycler_view_rank);
+
         swipeRefreshLayout = view.findViewById(R.id.refresh_shelffragment);
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -56,15 +55,11 @@ public class ShelfFragment extends Fragment {
             }
         });
 
-        textView_shelf = view.findViewById(R.id.fragment_shelf_myShelf_textView);
-
-
 
         //get id from sharedPreference
         SharedPreferences pref = this.getActivity().getSharedPreferences("pref", MODE_PRIVATE);
         id = pref.getString("ID", "");
 
-        textView_shelf.setText(id+"님의 책장");
 
 
         recyclerView.setHasFixedSize(true);
@@ -74,14 +69,14 @@ public class ShelfFragment extends Fragment {
 
 
         dataArrayList = new ArrayList<>();
-        adapter = new AdapterMyBook(dataArrayList);
+        adapter = new AdapterUser(dataArrayList);
         recyclerView.setAdapter(adapter);
 
 
         //  수정: User의 myBooks를 삭제하고 그냥 Books에서 haver가 나 인걸 가져오자
 
-        db.collection("Books")
-                .whereEqualTo("haver", id)
+        db.collection("Users")
+                .orderBy("point", Query.Direction.DESCENDING)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -90,12 +85,13 @@ public class ShelfFragment extends Fragment {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 //Log.d(TAG, document.getId() + " => " + document.getData());
 
-                                dataArrayList.add(new MyBookData(
-                                        document.get("book_image").toString(),
-                                        document.get("title").toString(),
-                                        "저자:"+document.get("author").toString(),
-                                        "출판사:"+document.get("publisher").toString()
-                                ));
+                                dataArrayList.add(new User(
+                                        document.get("id").toString(),
+                                        document.get("password").toString(),
+                                        Integer.parseInt(String.valueOf(document.get("point"))),
+                                        Integer.parseInt(String.valueOf(document.get("uploaded_book_count"))),
+                                        Integer.parseInt(String.valueOf(document.get("borrowed_book_count")))
+                                        ));
 
 
                                 adapter.notifyDataSetChanged();
@@ -105,7 +101,13 @@ public class ShelfFragment extends Fragment {
                             Log.d("Error", "Error getting documents: ", task.getException());
                         }
                     }
-                });
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("Error", "Error getting documents: ");
+            }
+        });
+
 
         return view;
     }

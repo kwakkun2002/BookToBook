@@ -20,10 +20,10 @@
         android:title="둘러보기" />
 
     <item
-        android:id="@+id/navigation_alert"
+        android:id="@+id/navigation_profile"
         android:enabled="true"
-        android:icon="@drawable/alert"
-        android:title="알림" />
+        android:icon="@drawable/user"
+        android:title="프로필" />
 
     <item
         android:id="@+id/navigation_shelf"

@@ -43,8 +43,6 @@ public class AdapterBook extends RecyclerView.Adapter<AdapterBook.ViewHolder> {
 
     private static ArrayList<BookData> bookDataSet;
     private static String id;
-    private static String TIME;
-    private static String PLACE;
     Context mcontext;
 
 
@@ -55,8 +53,6 @@ public class AdapterBook extends RecyclerView.Adapter<AdapterBook.ViewHolder> {
         public TextView author;
         public TextView publisher;
         public TextView haver;
-        public TextView place;
-        public TextView time;
         public Button borrow;
 
         public ViewHolder(@NonNull View itemView) {
@@ -66,8 +62,6 @@ public class AdapterBook extends RecyclerView.Adapter<AdapterBook.ViewHolder> {
             author = itemView.findViewById(R.id.item_book_textView_author);
             publisher = itemView.findViewById(R.id.item_book_textView_publisher);
             haver = itemView.findViewById(R.id.item_book_textView_haver);
-            place = itemView.findViewById(R.id.item_book_textView_place);
-            time = itemView.findViewById(R.id.item_book_textView_time);
             borrow = itemView.findViewById(R.id.item_book_button_borrow);
 
 
@@ -83,8 +77,8 @@ public class AdapterBook extends RecyclerView.Adapter<AdapterBook.ViewHolder> {
                             .document(haver.getText().toString().substring(3));
                     documentReference.update("alert", FieldValue.arrayUnion(
                             new Alert(
-                                    place.getText().toString().substring(3),
-                                    time.getText().toString().substring(3),
+                                    "place",
+                                    "time",
                                     "빌려줌",
                                     title.getText().toString(),
                                     id.toString()
@@ -96,8 +90,8 @@ public class AdapterBook extends RecyclerView.Adapter<AdapterBook.ViewHolder> {
                             .document(id.toString());
                     documentReference.update("alert",FieldValue.arrayUnion(
                             new Alert(
-                                    place.getText().toString().substring(3),
-                                    time.getText().toString().substring(3),
+                                    "place",
+                                    "time",
                                     "빌림",
                                     title.getText().toString(),
                                     haver.getText().toString().substring(3)
@@ -142,9 +136,7 @@ public class AdapterBook extends RecyclerView.Adapter<AdapterBook.ViewHolder> {
                                             db.collection("Books").document(document.getId())
                                                     .update(
                                                             "abled", false,
-                                                            "haver",id,
-                                                            "time",TIME,
-                                                            "place",PLACE
+                                                            "haver",id
                                                     );
 
                                         }
@@ -173,8 +165,8 @@ public class AdapterBook extends RecyclerView.Adapter<AdapterBook.ViewHolder> {
         bookDataSet = dataset;
         SharedPreferences preferences = context.getSharedPreferences("pref",0);
         id = preferences.getString("ID","");
-        PLACE = preferences.getString("place","");
-        TIME = preferences.getString("time","");
+//        PLACE = preferences.getString("place","");
+//        TIME = preferences.getString("time","");
         mcontext=context;
 
     }
@@ -209,8 +201,6 @@ public class AdapterBook extends RecyclerView.Adapter<AdapterBook.ViewHolder> {
         holder.author.setText(bookDataSet.get(position).author);
         holder.publisher.setText(bookDataSet.get(position).publisher);
         holder.haver.setText(bookDataSet.get(position).haver);
-        holder.place.setText(bookDataSet.get(position).place);
-        holder.time.setText(bookDataSet.get(position).time);
 
 
         Log.d("AdapterBook-test-title",bookDataSet.get(position).title);

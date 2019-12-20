@@ -56,9 +56,9 @@ public class EnrollActivity extends AppCompatActivity {
         final String author = intent.getExtras().getString("auth");
 
         SharedPreferences preferences = getSharedPreferences("pref",MODE_PRIVATE);
-        final String ID = preferences.getString("ID","unknown user");
-        final String place = preferences.getString("place","none");
-        final String time= preferences.getString("time","none");
+        final String ID = preferences.getString("ID","unknown profile");
+//        final String place = preferences.getString("place","none");
+//        final String time= preferences.getString("time","none");
 
 
 
@@ -76,7 +76,7 @@ public class EnrollActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 SharedPreferences pref = getSharedPreferences("pref",MODE_PRIVATE);
-                BookData bookData = new BookData(bookImg_url,title,author,publisher,pref.getString("ID",""),place,time);
+                BookData bookData = new BookData(bookImg_url,title,author,publisher,pref.getString("ID",""));
 
                 //책 등록
                 db.collection("Books").add(bookData)
@@ -93,7 +93,7 @@ public class EnrollActivity extends AppCompatActivity {
                             }
                         });
 
-                //나의 책장에 추가
+                //나의 책장에 추가 이제 그냥 주인이 내 책인 거를 가져오기로
 //                db.collection("Users").document(ID)
 //                        .update("myBook", FieldValue.arrayUnion(new MyBookData(bookImg_url,title,author,publisher)));
 

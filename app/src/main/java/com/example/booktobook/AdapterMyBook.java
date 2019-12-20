@@ -20,7 +20,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-public class AdapterShelfFragment extends RecyclerView.Adapter<AdapterShelfFragment.ViewHolder> {
+public class AdapterMyBook extends RecyclerView.Adapter<AdapterMyBook.ViewHolder> {
 
     private ArrayList<MyBookData> bookDataSet;
 
@@ -77,14 +77,14 @@ public class AdapterShelfFragment extends RecyclerView.Adapter<AdapterShelfFragm
 
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public AdapterShelfFragment(ArrayList<MyBookData> dataset) {
+    public AdapterMyBook(ArrayList<MyBookData> dataset) {
         bookDataSet = dataset;
     }
 
     // Create new views
     @NonNull
     @Override
-    public AdapterShelfFragment.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public AdapterMyBook.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         //create a new view
         View v = LayoutInflater.from(parent.getContext())
@@ -98,7 +98,7 @@ public class AdapterShelfFragment extends RecyclerView.Adapter<AdapterShelfFragm
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(@NonNull AdapterShelfFragment.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull AdapterMyBook.ViewHolder holder, int position) {
 
 
         Glide.with(holder.itemView.getContext())

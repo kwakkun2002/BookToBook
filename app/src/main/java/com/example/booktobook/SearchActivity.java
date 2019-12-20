@@ -14,7 +14,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.multidex.MultiDex;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -86,9 +86,7 @@ public class SearchActivity extends Activity implements SearchFragment.OnDataPas
                                         bookData.getTitle().toString(),
                                         "저자:" + bookData.getAuthor().toString(),
                                         "출판사:" + bookData.getPublisher().toString(),
-                                        "주인:" + bookData.getHaver().toString(),
-                                        "위치:" + bookData.getPlace().toString(),
-                                        "시간:" + bookData.getTime().toString()
+                                        "주인:" + bookData.getHaver().toString()
                                 ));
 
                                 if (bookData.getTitle().equals("null")){

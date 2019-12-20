@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -50,9 +52,11 @@ public class ShowFragment extends Fragment{
 
     private RecyclerView recyclerView;
     public SwipeRefreshLayout swipeRefreshLayout;
+    public ImageButton rankButton;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
     private ArrayList<BookData> dataArrayList;
+
 
 
     @Nullable
@@ -64,11 +68,21 @@ public class ShowFragment extends Fragment{
 
         recyclerView = view.findViewById(R.id.recycler_view_show);
         swipeRefreshLayout = view.findViewById(R.id.refresh_showfragment);
+        rankButton = view.findViewById(R.id.button_rank);
+
+        rankButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(),RankActivity.class);
+                startActivity(intent);
+            }
+        });
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 adapter.notifyDataSetChanged();
+                swipeRefreshLayout.setRefreshing(false);
             }
         });
 
@@ -81,7 +95,7 @@ public class ShowFragment extends Fragment{
         recyclerView.setLayoutManager(layoutManager);
 
         SharedPreferences pref = this.getActivity().getSharedPreferences("pref", MODE_PRIVATE);
-        String id = pref.getString("ID", "");
+        final String id = pref.getString("ID", "");
 
 
         dataArrayList = new ArrayList<>();
@@ -98,15 +112,20 @@ public class ShowFragment extends Fragment{
                             for (QueryDocumentSnapshot document : task.getResult()) {
 //                                Log.d("ShowFragment", document.getId() + " => " + document.getData());
                                 if(document.getBoolean("abled")){
-                                    dataArrayList.add(new BookData(
-                                            document.get("book_image").toString(),
-                                            document.get("title").toString(),
-                                            "저자:"+document.get("author").toString(),
-                                            "출판사:"+document.get("publisher").toString(),
-                                            "주인:"+document.get("haver").toString(),
-                                            "장소:"+document.get("place").toString(),
-                                            "시간:"+document.get("time").toString()
-                                    ));
+
+                                    if(!document.get("haver").equals(id)){
+
+                                        Log.d("kwk_haver", (String) document.get("haver"));
+                                        Log.d("kwk_id", id);
+
+                                        dataArrayList.add(new BookData(
+                                                document.get("book_image").toString(),
+                                                document.get("title").toString(),
+                                                "저자:"+document.get("author").toString(),
+                                                "출판사:"+document.get("publisher").toString(),
+                                                "주인:"+document.get("haver").toString()
+                                        ));
+                                    }
                                 }
                                 adapter.notifyDataSetChanged();
                             }

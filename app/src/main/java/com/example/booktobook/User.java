@@ -8,6 +8,7 @@ public class User {
     private String password;
     private int point;
     private int uploaded_book_count;
+    private int borrowed_book_count;
     private List<Alert> alert;
 
     public User() {
@@ -18,6 +19,15 @@ public class User {
         this.password = password;
         this.point = 0;
         this.uploaded_book_count = 0;
+        this.borrowed_book_count = 0;
+    }
+
+    public User(String id, String password, int point, int uploaded_book_count, int borrowed_book_count) {
+        this.id = id;
+        this.password = password;
+        this.point = point;
+        this.uploaded_book_count = uploaded_book_count;
+        this.borrowed_book_count = borrowed_book_count;
     }
 
     public String getId() {
@@ -50,6 +60,14 @@ public class User {
 
     public void setUploaded_book_count(int uploaded_book_count) {
         this.uploaded_book_count = uploaded_book_count;
+    }
+
+    public int getBorrowed_book_count() {
+        return borrowed_book_count;
+    }
+
+    public void setBorrowed_book_count(int borrowed_book_count) {
+        this.borrowed_book_count = borrowed_book_count;
     }
 
     public List<Alert> getAlert() {
