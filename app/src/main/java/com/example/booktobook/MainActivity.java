@@ -20,6 +20,8 @@ public class MainActivity extends AppCompatActivity {
     private ProfileFragment profileFragment = new ProfileFragment();
     private ShelfFragment shelfFragment = new ShelfFragment();
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

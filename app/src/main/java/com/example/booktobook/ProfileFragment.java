@@ -25,7 +25,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -41,6 +44,11 @@ public class ProfileFragment extends Fragment {
     ImageView imageView;
     CustomDialog customDialog;
     File tempFile;
+
+    public TextView fragment_profile_textview_name;
+    public TextView fragment_profile_textview_point;
+    public TextView fragment_profile_textview_uploaded_book;
+    public TextView fragment_profile_textview_borrow_book;
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -87,6 +95,12 @@ public class ProfileFragment extends Fragment {
 
         profilefragment_alert = view.findViewById(R.id.button_alert);
         imageView=view.findViewById(R.id.imageview_profile);
+
+        fragment_profile_textview_name = view.findViewById(R.id.fragment_profile_name);
+        fragment_profile_textview_point = view.findViewById(R.id.fragment_profile_point);
+        fragment_profile_textview_borrow_book = view.findViewById(R.id.fragment_profile_borrow_book);
+        fragment_profile_textview_uploaded_book = view.findViewById(R.id.fragment_profile_upload_book);
+
         profilefragment_alert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -102,9 +116,26 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        SharedPreferences pref = this.getActivity().getSharedPreferences("pref", MODE_PRIVATE);
+        final String id = pref.getString("ID", "");
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        DocumentReference docRef = db.collection("Users").document(id);
+        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                User user = documentSnapshot.toObject(User.class);
+                fragment_profile_textview_name.setText(user.getId());
+                fragment_profile_textview_point.setText(""+user.getPoint());
+                fragment_profile_textview_borrow_book.setText(""+user.getBorrowed_book_count());
+                fragment_profile_textview_uploaded_book.setText(""+user.getUploaded_book_count());
+            }
+        });
+
+
+
+
         return view;
-
-
     }
 
     View.OnClickListener cameraListener = new View.OnClickListener(){

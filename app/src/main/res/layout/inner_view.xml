@@ -15,8 +15,8 @@
 
             <ImageView
                 android:layout_margin="10dp"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:src="@drawable/point"
                 />
 
@@ -25,7 +25,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:text=""
-                android:textSize="30sp"
+                android:textSize="20sp"
                 android:id="@+id/textview_point"/>
         </LinearLayout>
 
@@ -37,8 +37,8 @@
 
             <ImageView
                 android:layout_margin="10dp"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:src="@drawable/read"
                 />
 
@@ -47,7 +47,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:text=""
-                android:textSize="30sp"
+                android:textSize="20sp"
                 android:id="@+id/textview_readbookCnt"/>
 
 
@@ -61,8 +61,8 @@
 
             <ImageView
                 android:layout_margin="10dp"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:src="@drawable/upload"
                 />
 
@@ -71,7 +71,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:text=""
-                android:textSize="30sp"
+                android:textSize="20sp"
                 android:id="@+id/textview_enrollbookCnt"/>
 
 
