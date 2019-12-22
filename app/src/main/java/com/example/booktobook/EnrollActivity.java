@@ -93,6 +93,14 @@ public class EnrollActivity extends AppCompatActivity {
                             }
                         });
 
+                //책등록시 포인트와 업로드카운트 증가
+                db.collection("Users").document(""+ID)
+                        .update("uploaded_book_count",FieldValue.increment(1));
+                db.collection("Users").document(""+ID)
+                        .update("point",FieldValue.increment(1));
+
+
+
                 //나의 책장에 추가 이제 그냥 주인이 내 책인 거를 가져오기로
 //                db.collection("Users").document(ID)
 //                        .update("myBook", FieldValue.arrayUnion(new MyBookData(bookImg_url,title,author,publisher)));

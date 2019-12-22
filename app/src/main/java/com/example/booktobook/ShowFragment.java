@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -95,6 +96,9 @@ public class ShowFragment extends Fragment{
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
 
+        //use a grid layout manager
+//        recyclerView.setLayoutManager(new GridLayoutManager(getContext(),3));
+
         SharedPreferences pref = this.getActivity().getSharedPreferences("pref", MODE_PRIVATE);
         final String id = pref.getString("ID", "");
 
@@ -102,6 +106,7 @@ public class ShowFragment extends Fragment{
         dataArrayList = new ArrayList<>();
         adapter = new AdapterBook(dataArrayList,getContext());
         recyclerView.setAdapter(adapter);
+
 
 
         db.collection("Books")

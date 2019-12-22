@@ -177,9 +177,10 @@ public class AdapterBook extends RecyclerView.Adapter<AdapterBook.ViewHolder> {
     public AdapterBook.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         //create a new view
+//        View v = LayoutInflater.from(parent.getContext())
+//                .inflate(R.layout.item_book,parent,false);
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_book,parent,false);
-
         ViewHolder vh = new ViewHolder(v);
 
         return vh;

@@ -17,7 +17,7 @@ public class User {
     public User(String id, String password) {
         this.id = id;
         this.password = password;
-        this.point = 0;
+        this.point = 20;
         this.uploaded_book_count = 0;
         this.borrowed_book_count = 0;
     }
