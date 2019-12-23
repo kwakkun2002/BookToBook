@@ -1,4 +1,4 @@
-package com.example.booktobook;
+package com.example.booktobook.Activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
+import android.widget.QuickContactBadge;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.booktobook.Adapter.ChatListAdapter;
 import com.example.booktobook.Model.Chat;
 import com.example.booktobook.Interface.OnItemClickListener;
+import com.example.booktobook.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
@@ -29,6 +32,7 @@ public class ChatActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     ArrayList<Chat> chats = new ArrayList<>();
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+    ImageButton chatBackButton;
     DocumentReference documentReference;
     String id;
     Context mcontext=this;
@@ -38,6 +42,15 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
         recyclerView = findViewById(R.id.recycler_view_chat);
+        chatBackButton = findViewById(R.id.activity_chat_back_button);
+
+        chatBackButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
 
         SharedPreferences sharedPreferences = getSharedPreferences("pref", MODE_PRIVATE);
         id = sharedPreferences.getString("ID", "id");

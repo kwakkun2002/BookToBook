@@ -1,4 +1,4 @@
-package com.example.booktobook;
+package com.example.booktobook.Dialog;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -10,9 +10,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.booktobook.Interface.CustomDialogListener;
+import com.example.booktobook.R;
 
 
-class FormDialog extends Dialog {
+public class FormDialog extends Dialog {
     private TextView mPositiveButton;
     private TextView mNegativeButton;
     private TextView sender,receiver,time,location,alarm;

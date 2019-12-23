@@ -1,6 +1,4 @@
 package com.example.booktobook.Model;
-
-import com.example.booktobook.NotificationModel;
 import com.google.gson.annotations.SerializedName;
 
 class RootModel {

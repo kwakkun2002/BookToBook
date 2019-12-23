@@ -19,8 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.booktobook.AlertActivity;
-import com.example.booktobook.CustomDialog;
+import com.example.booktobook.Activity.AlertActivity;
 import com.example.booktobook.Model.User;
 import com.example.booktobook.R;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -36,7 +35,6 @@ public class ProfileFragment extends Fragment {
 
     public ImageButton profilefragment_alert;
     ImageView imageView;
-    CustomDialog customDialog;
     File tempFile;
 
     public TextView fragment_profile_textview_name;
@@ -102,24 +100,20 @@ public class ProfileFragment extends Fragment {
                 startActivity(intent);
             }
         });
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                customDialog= new CustomDialog(getContext(),cameraListener,galleryListener);
-                customDialog.show();
-            }
-        });
+
 
         SharedPreferences pref = this.getActivity().getSharedPreferences("pref", MODE_PRIVATE);
         final String id = pref.getString("ID", "");
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        fragment_profile_textview_name.setText(""+id);
 
         DocumentReference docRef = db.collection("Users").document(id);
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 User user = documentSnapshot.toObject(User.class);
-                fragment_profile_textview_name.setText(user.getId());
+
                 fragment_profile_textview_point.setText(""+user.getPoint());
                 fragment_profile_textview_borrow_book.setText(""+user.getBorrowed_book_count());
                 fragment_profile_textview_uploaded_book.setText(""+user.getUploaded_book_count());

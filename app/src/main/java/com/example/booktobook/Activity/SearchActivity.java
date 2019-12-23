@@ -1,4 +1,4 @@
-package com.example.booktobook;
+package com.example.booktobook.Activity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.booktobook.Adapter.AdapterBook;
-import com.example.booktobook.BookData;
 import com.example.booktobook.Model.BookData;
 import com.example.booktobook.R;
 import com.example.booktobook.Fragment.SearchFragment;

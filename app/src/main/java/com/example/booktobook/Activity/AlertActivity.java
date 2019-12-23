@@ -1,4 +1,4 @@
-package com.example.booktobook;
+package com.example.booktobook.Activity;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;

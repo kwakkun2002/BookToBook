@@ -25,7 +25,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
     public static final String CHAT_ROOM_NAME="CHAT_ROOM_NAME";
     private OnItemClickListener onItemClickListener;
 
-    ChatListAdapter(ArrayList<Chat> chats)
+    public ChatListAdapter(ArrayList<Chat> chats)
     {
         this.chats=chats;
     }

@@ -1,4 +1,4 @@
-package com.example.booktobook;
+package com.example.booktobook.Activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,6 +11,18 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.booktobook.Model.BookData;
+import com.example.booktobook.R;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class EnrollActivity extends AppCompatActivity {
 
@@ -82,7 +94,7 @@ public class EnrollActivity extends AppCompatActivity {
 
                 //책등록시 포인트와 업로드카운트 증가
                 db.collection("Users").document(""+ID)
-                        .update("uploaded_book_count",FieldValue.increment(1));
+                        .update("uploaded_book_count", FieldValue.increment(1));
                 db.collection("Users").document(""+ID)
                         .update("point",FieldValue.increment(1));
 

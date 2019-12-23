@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.example.booktobook.RankActivity;
+import com.example.booktobook.Activity.RankActivity;
 import com.example.booktobook.Adapter.AdapterBook;
 import com.example.booktobook.Model.BookData;
 import com.example.booktobook.R;

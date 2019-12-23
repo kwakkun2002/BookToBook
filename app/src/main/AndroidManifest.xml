@@ -23,30 +23,30 @@
         android:roundIcon="@mipmap/library"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".RankActivity" />
-        <activity android:name=".MainActivity" />
-        <activity android:name=".SearchActivity" />
-        <activity android:name=".AlertActivity" />
-        <activity android:name=".LoginActivity">
+        <activity android:name=".Activity.RankActivity" />
+        <activity android:name=".Activity.MainActivity" />
+        <activity android:name=".Activity.SearchActivity" />
+        <activity android:name=".Activity.AlertActivity" />
+        <activity android:name=".Activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MessageActivity">
+        <activity android:name=".Activity.MessageActivity">
             <intent-filter>
                 <action android:name="MESSAGE_ACTIVITY"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-        <activity android:name=".ChatActivity">
+        <activity android:name=".Activity.ChatActivity">
             <intent-filter>
                 <action android:name="CHAT_ACTIVITY"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-        <activity android:name=".EnrollActivity" />
+        <activity android:name=".Activity.EnrollActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -62,14 +62,14 @@
             </intent-filter>
         </service>
 
-        <receiver android:name=".DeviceBootReceiver"
+        <receiver android:name=".Receiver.DeviceBootReceiver"
             android:enabled="false">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
 
-        <receiver android:name=".AlarmReceiver">
+        <receiver android:name=".Receiver.AlarmReceiver">
         </receiver>
 
     </application>

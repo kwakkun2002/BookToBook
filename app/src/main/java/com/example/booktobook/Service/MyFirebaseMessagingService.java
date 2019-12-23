@@ -13,8 +13,8 @@ import android.util.Log;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.RemoteInput;
 
-import com.example.booktobook.ChatActivity;
-import com.example.booktobook.MessageActivity;
+import com.example.booktobook.Activity.ChatActivity;
+import com.example.booktobook.Activity.MessageActivity;
 import com.example.booktobook.R;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;

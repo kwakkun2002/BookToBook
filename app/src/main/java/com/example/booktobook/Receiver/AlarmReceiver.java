@@ -1,4 +1,4 @@
-package com.example.booktobook;
+package com.example.booktobook.Receiver;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -8,6 +8,9 @@ import android.content.Context;
 import android.content.Intent;
 
 import androidx.core.app.NotificationCompat;
+
+import com.example.booktobook.Activity.MainActivity;
+import com.example.booktobook.R;
 
 public class AlarmReceiver extends BroadcastReceiver {
     @Override

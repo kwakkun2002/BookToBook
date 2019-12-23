@@ -22,7 +22,7 @@ import androidx.core.app.NotificationCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.booktobook.ChatActivity;
+import com.example.booktobook.Activity.ChatActivity;
 import com.example.booktobook.Model.BookData;
 import com.example.booktobook.R;
 import com.google.android.gms.tasks.OnFailureListener;

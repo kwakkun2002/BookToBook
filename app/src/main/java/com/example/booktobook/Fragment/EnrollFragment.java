@@ -16,7 +16,7 @@ import android.widget.ImageButton;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.example.booktobook.EnrollActivity;
+import com.example.booktobook.Activity.EnrollActivity;
 import com.example.booktobook.Model.BookData;
 import com.example.booktobook.Parser;
 import com.example.booktobook.R;

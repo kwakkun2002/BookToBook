@@ -15,7 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.booktobook.SearchActivity;
+import com.example.booktobook.Activity.SearchActivity;
 import com.example.booktobook.Model.BookData;
 import com.example.booktobook.R;
 import com.google.android.gms.tasks.OnSuccessListener;

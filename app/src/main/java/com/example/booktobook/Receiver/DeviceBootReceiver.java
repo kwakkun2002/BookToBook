@@ -1,4 +1,4 @@
-package com.example.booktobook;
+package com.example.booktobook.Receiver;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;

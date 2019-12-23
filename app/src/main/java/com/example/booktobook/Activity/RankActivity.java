@@ -1,4 +1,4 @@
-package com.example.booktobook;
+package com.example.booktobook.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
