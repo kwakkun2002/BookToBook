@@ -1,28 +1,21 @@
-package com.example.booktobook;
+package com.example.booktobook.Model;
 
-class BookData{
+public class MyBookData {
     public String book_image;
     public String title;
     public String author;
     public String publisher;
-    public String haver;
-    public boolean abled;
 
-
-    public BookData(){
+    public MyBookData(){
 
     }
 
-    public BookData(String book_image, String title, String author, String publisher, String haver) {
+    public MyBookData(String book_image, String title, String author, String publisher){
         this.book_image = book_image;
         this.title = title;
         this.author = author;
         this.publisher = publisher;
-        this.haver = haver;
-        this.abled = true;
     }
-
-
 
     public String getBook_image() {
         return book_image;
@@ -54,21 +47,5 @@ class BookData{
 
     public void setPublisher(String publisher) {
         this.publisher = publisher;
-    }
-
-    public String getHaver() {
-        return haver;
-    }
-
-    public void setHaver(String haver) {
-        this.haver = haver;
-    }
-
-    public boolean isAbled() {
-        return abled;
-    }
-
-    public void setAbled(boolean abled) {
-        this.abled = abled;
     }
 }

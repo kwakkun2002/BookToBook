@@ -1,15 +1,16 @@
-package com.example.booktobook;
+package com.example.booktobook.Adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alespero.expandablecardview.ExpandableCardView;
+import com.example.booktobook.R;
+import com.example.booktobook.Model.User;
 
 import java.util.ArrayList;
 

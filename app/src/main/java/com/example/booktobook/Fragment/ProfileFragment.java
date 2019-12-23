@@ -1,4 +1,4 @@
-package com.example.booktobook;
+package com.example.booktobook.Fragment;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -8,33 +8,27 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.google.android.gms.tasks.OnCompleteListener;
+import com.example.booktobook.AlertActivity;
+import com.example.booktobook.CustomDialog;
+import com.example.booktobook.Model.User;
+import com.example.booktobook.R;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.io.File;
-import java.util.ArrayList;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -104,7 +98,7 @@ public class ProfileFragment extends Fragment {
         profilefragment_alert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(),AlertActivity.class);
+                Intent intent = new Intent(getActivity(), AlertActivity.class);
                 startActivity(intent);
             }
         });

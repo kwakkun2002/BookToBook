@@ -2,6 +2,8 @@ package com.example.booktobook;
 
 import android.util.Log;
 
+import com.example.booktobook.Model.BookData;
+
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 

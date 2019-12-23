@@ -1,7 +1,6 @@
 package com.example.booktobook;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -9,24 +8,19 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
+import com.example.booktobook.Adapter.AdapterBook;
+import com.example.booktobook.BookData;
+import com.example.booktobook.Model.BookData;
+import com.example.booktobook.R;
+import com.example.booktobook.Fragment.SearchFragment;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -107,7 +101,7 @@ public class SearchActivity extends Activity implements SearchFragment.OnDataPas
         String id = pref.getString("ID", "");
 
 
-        adapter = new AdapterBook(dataArrayList, this);
+        adapter = new AdapterBook(dataArrayList,this);
         recyclerView.setAdapter(adapter);
 
     }

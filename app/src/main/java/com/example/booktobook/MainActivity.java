@@ -5,10 +5,24 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
+import com.example.booktobook.Fragment.EnrollFragment;
+import com.example.booktobook.Fragment.ProfileFragment;
+import com.example.booktobook.R;
+import com.example.booktobook.Fragment.SearchFragment;
+import com.example.booktobook.Fragment.ShelfFragment;
+import com.example.booktobook.Fragment.ShowFragment;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,6 +33,17 @@ public class MainActivity extends AppCompatActivity {
     private ShowFragment showFragment = new ShowFragment();
     private ProfileFragment profileFragment = new ProfileFragment();
     private ShelfFragment shelfFragment = new ShelfFragment();
+
+    private Intent serviceIntent;
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (serviceIntent!=null){
+            stopService(serviceIntent);
+            serviceIntent=null;
+        }
+    }
 
 
 
@@ -70,6 +95,30 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+
+        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(this, new OnSuccessListener<InstanceIdResult>() {
+            @Override
+            public void onSuccess(InstanceIdResult instanceIdResult) {
+
+                String newToken=instanceIdResult.getToken();
+                Log.d("qwe","새 토큰"+newToken);
+
+                final FirebaseFirestore db = FirebaseFirestore.getInstance();
+                SharedPreferences preferences = getSharedPreferences("pref",MODE_PRIVATE);
+                final String ID = preferences.getString("ID","");
+                Log.d("id",ID);
+                DocumentReference documentReference = db.collection("Users")
+                        .document(ID);
+                documentReference.update("token",newToken).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d("dd","Sucessful update");
+                    }
+                });
+            }
+        });
+
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.example.booktobook;
+package com.example.booktobook.Fragment;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -15,6 +15,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.example.booktobook.Adapter.AdapterMyBook;
+import com.example.booktobook.Model.MyBookData;
+import com.example.booktobook.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;

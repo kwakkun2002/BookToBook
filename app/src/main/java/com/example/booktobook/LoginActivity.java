@@ -13,12 +13,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.booktobook.Model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
+
+import static android.content.Context.MODE_PRIVATE;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -40,13 +45,13 @@ public class LoginActivity extends AppCompatActivity {
         Boolean isLoginOnce = preferences.getBoolean("isLogin",false);
 
 //        //만약 로그인한 적이 있다면 그냥 로그인
-        if(isLoginOnce){
-            Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-            Toast.makeText(LoginActivity.this, preferences.getString("ID","unknown")+"님 반갑습니다!", Toast.LENGTH_SHORT).show();
-            startActivity(intent);
-        }
+//        if(isLoginOnce){
+//            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+//            Toast.makeText(LoginActivity.this, preferences.getString("ID","unknown")+"님 반갑습니다!", Toast.LENGTH_SHORT).show();
+//            startActivity(intent);
+//        }
 
-         db = FirebaseFirestore.getInstance();
+        db = FirebaseFirestore.getInstance();
         FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
                 .build();
 
@@ -85,22 +90,28 @@ public class LoginActivity extends AppCompatActivity {
                                 db.collection("Users").document(id).set(user);
                                 Log.d("LoginActivity-signUp", "new User made : "+user.getId());
                                 Toast.makeText(LoginActivity.this, user.getId()+"님 반갑습니다!", Toast.LENGTH_SHORT).show();
-
-
                                 SharedPreferences sharedPreferences = getSharedPreferences("pref",MODE_PRIVATE);
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
                                 editor.putBoolean("isLogin",true);
                                 editor.putString("ID",id.toString());
                                 editor.apply();
-
-
-                                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                 startActivity(intent);
+
                             }
                         }
                         else{
                             Log.d("LoginActivity-signUp", "get failed with ", task.getException());
                         }
+                    }
+                }).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+
+                        Log.d("login", "login Sucessful");
+                        FirebaseApp.initializeApp(getApplicationContext());
+
+
                     }
                 });
             }

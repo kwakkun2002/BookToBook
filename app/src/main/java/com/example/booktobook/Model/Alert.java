@@ -1,4 +1,4 @@
-package com.example.booktobook;
+package com.example.booktobook.Model;
 
 public class Alert{
     private String status;

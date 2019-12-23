@@ -1,4 +1,4 @@
-package com.example.booktobook;
+package com.example.booktobook.Adapter;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.booktobook.MyBookData;
+import com.example.booktobook.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -20,7 +22,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-public class AdapterMyBook extends RecyclerView.Adapter<AdapterMyBook.ViewHolder> {
+public class AdapterShelfFragment extends RecyclerView.Adapter<AdapterShelfFragment.ViewHolder> {
 
     private ArrayList<MyBookData> bookDataSet;
 
@@ -77,14 +79,14 @@ public class AdapterMyBook extends RecyclerView.Adapter<AdapterMyBook.ViewHolder
 
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public AdapterMyBook(ArrayList<MyBookData> dataset) {
+    public AdapterShelfFragment(ArrayList<MyBookData> dataset) {
         bookDataSet = dataset;
     }
 
     // Create new views
     @NonNull
     @Override
-    public AdapterMyBook.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public AdapterShelfFragment.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         //create a new view
         View v = LayoutInflater.from(parent.getContext())
@@ -98,7 +100,7 @@ public class AdapterMyBook extends RecyclerView.Adapter<AdapterMyBook.ViewHolder
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(@NonNull AdapterMyBook.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull AdapterShelfFragment.ViewHolder holder, int position) {
 
 
         Glide.with(holder.itemView.getContext())

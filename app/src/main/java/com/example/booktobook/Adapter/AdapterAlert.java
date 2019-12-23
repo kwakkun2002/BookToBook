@@ -1,4 +1,4 @@
-package com.example.booktobook;
+package com.example.booktobook.Adapter;
 
 import android.annotation.SuppressLint;
 import android.util.Log;
@@ -11,6 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.booktobook.Model.Alert;
+import com.example.booktobook.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;

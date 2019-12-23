@@ -1,4 +1,4 @@
-package com.example.booktobook;
+package com.example.booktobook.Model;
 
 
 import java.util.List;

@@ -1,7 +1,6 @@
-package com.example.booktobook;
+package com.example.booktobook.Fragment;
 
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,13 +11,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.TextView;
-import android.widget.Toast;
 
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.booktobook.EnrollActivity;
+import com.example.booktobook.Model.BookData;
+import com.example.booktobook.Parser;
+import com.example.booktobook.R;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
@@ -98,7 +99,7 @@ public class EnrollFragment extends Fragment {
             Log.d("EnrollFrag-publisher",arrayList.get(0).getPublisher());
             Log.d("EnrollFragment-title",arrayList.get(0).getTitle());
 
-            intent = new Intent(getContext(),EnrollActivity.class);
+            intent = new Intent(getContext(), EnrollActivity.class);
             intent.putExtra("title",arrayList.get(0).getTitle());
             intent.putExtra("publisher",arrayList.get(0).getPublisher());
             intent.putExtra("auth",arrayList.get(0).getAuthor());
