@@ -96,7 +96,7 @@ public class EnrollActivity extends AppCompatActivity {
                 db.collection("Users").document(""+ID)
                         .update("uploaded_book_count", FieldValue.increment(1));
                 db.collection("Users").document(""+ID)
-                        .update("point",FieldValue.increment(1));
+                        .update("point",FieldValue.increment(5));
 
 
 

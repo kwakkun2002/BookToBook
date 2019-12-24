@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.example.booktobook.Activity.ChatActivity;
 import com.example.booktobook.Activity.RankActivity;
 import com.example.booktobook.Adapter.AdapterBook;
 import com.example.booktobook.Model.BookData;
@@ -35,6 +36,7 @@ public class ShowFragment extends Fragment{
     private RecyclerView recyclerView;
     public SwipeRefreshLayout swipeRefreshLayout;
     public ImageButton rankButton;
+    public ImageButton chatButton;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
     private ArrayList<BookData> dataArrayList;
@@ -51,7 +53,15 @@ public class ShowFragment extends Fragment{
         recyclerView = view.findViewById(R.id.recycler_view_show);
         swipeRefreshLayout = view.findViewById(R.id.refresh_showfragment);
         rankButton = view.findViewById(R.id.button_rank);
+        chatButton = view.findViewById(R.id.button_chat);
 
+        chatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), ChatActivity.class);
+                startActivity(intent);
+            }
+        });
         rankButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

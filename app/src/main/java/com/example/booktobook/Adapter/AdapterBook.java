@@ -25,11 +25,15 @@ import com.bumptech.glide.Glide;
 import com.example.booktobook.Activity.ChatActivity;
 import com.example.booktobook.Model.BookData;
 import com.example.booktobook.R;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import org.json.JSONObject;
 
@@ -74,35 +78,12 @@ public class AdapterBook extends RecyclerView.Adapter<AdapterBook.ViewHolder> {
 
                     final FirebaseFirestore db = FirebaseFirestore.getInstance();
                     DocumentReference documentReference;
-                    //양 계정에 알림을 추가
-//                                              DocumentReference documentReference = db.collection("Users")
-//                                                      .document(haver.getText().toString().substring(3));
-//                                              documentReference.update("alert", FieldValue.arrayUnion(
-//                                                      new Alert(
-//                                                              place.getText().toString().substring(3),
-//                                                              time.getText().toString().substring(3),
-//                                                              "빌려줌",
-//                                                              title.getText().toString(),
-//                                                              id.toString()
-//                                                      )
-//                                              ));
-//
-//                                              documentReference = db.collection("Users")
-//                                                      .document(id.toString());
-//                                              documentReference.update("alert", FieldValue.arrayUnion(
-//                                                      new Alert(
-//                                                              place.getText().toString().substring(3),
-//                                                              time.getText().toString().substring(3),
-//                                                              "빌림",
-//                                                              title.getText().toString(),
-//                                                              haver.getText().toString().substring(3)
-//                                                      )
-//                                              ));
+
 
                     // 자기 자신에게 알림
                     final int notiId = 101;
                     final String strChannelId = "channel_id";
-                    String content = haver.getText().toString().substring(3) + "님의 " + title.getText().toString() + " 책 을 빌렸습니다.";
+                    String content = "채팅방이 열렸습니다";
                     // Pending intent 생성
                     Intent notificationIntent = new Intent(mcontext, ChatActivity.class);
                     notificationIntent.putExtra("noti_id", notiId);
@@ -113,7 +94,7 @@ public class AdapterBook extends RecyclerView.Adapter<AdapterBook.ViewHolder> {
                     NotificationCompat.Builder builder = new NotificationCompat.Builder(mcontext, strChannelId);
                     builder.setContentTitle("BookToBook")
                             .setContentText(content)
-                            .setSmallIcon(R.mipmap.ic_launcher)
+                            .setSmallIcon(R.mipmap.library)
                             .setContentIntent(contentIntent)
                             .setAutoCancel(true)
                             .setWhen(System.currentTimeMillis())
@@ -139,9 +120,10 @@ public class AdapterBook extends RecyclerView.Adapter<AdapterBook.ViewHolder> {
                     // 빌려준 사람에게 알람
                     final String FCM_MESSAGE_URL = "https://fcm.googleapis.com/fcm/send";
                     final String SERVER_KEY = "AAAAvwFFAB0:APA91bH27fELBmCwMY1ND4vQVUeaKmujW-k0N72NDzhJDaoV4IQ9z-KHcfS1UePQ_bGUKK2vWbJRmFLD_6txrpS8BJj5tpU1NKashowU-6jat4RW5aaPeQVHn9m6y7ZHlPqCJi4y1kB9";
+
                     documentReference=db.collection("Users")
                             .document(haver.getText().toString().substring(3));
-                    final DocumentReference finalDocumentReference = documentReference;
+
                     documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                         @Override
                         public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -238,29 +220,26 @@ public class AdapterBook extends RecyclerView.Adapter<AdapterBook.ViewHolder> {
 
                     //빌리기를 누르자마자 바로 비활성화
                     //  책의 haver를 주인에서 나로 바꿔주자
-//                    db.collection("Books")
-//                            .whereEqualTo("title",title.getText().toString())
-//                            .get()
-//                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                                @Override
-//                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                                    if (task.isSuccessful()) {
-//                                        for (QueryDocumentSnapshot document : task.getResult()) {
-//                                            Log.d("AdapterBook", document.getId() + " => " + document.getData());
-//                                            db.collection("Books").document(document.getId())
-//                                                    .update(
-//                                                            "abled", false,
-//                                                            "haver",id,
-//                                                            "time",TIME,
-//                                                            "place",PLACE
-//                                                    );
-//
-//                                        }
-//                                    } else {
-//                                        Log.d("AdapterBook", "Error getting documents: ", task.getException());
-//                                    }
-//                                }
-//                            });
+                    db.collection("Books")
+                            .whereEqualTo("title",title.getText().toString())
+                            .get()
+                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        for (QueryDocumentSnapshot document : task.getResult()) {
+                                             Log.d("AdapterBook", document.getId() + " => " + document.getData());
+                                            db.collection("Books").document(document.getId())
+                                                    .update(
+                                                            "abled", false
+                                                    );
+
+                                        }
+                                    } else {
+                                        Log.d("AdapterBook", "Error getting documents: ", task.getException());
+                                    }
+                                }
+                            });
 //
 //                    //해당 아이템 리사이클러에서 삭제
 //                    final int adapterPosition = getAdapterPosition();

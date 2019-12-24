@@ -76,13 +76,15 @@ public class ChatActivity extends AppCompatActivity {
 
                             //방 Id
                             chat.id = snapshot.getId();
+
                             //방 이름
                             chat.haver = snapshot.getString("haver");
                             chat.borrower = snapshot.getString("borrower");
+                            chat.name = snapshot.getString("name");
 
                             chat.roomName = chat.borrower;
                             //chat.name 에다 자기 id 넣어줌.
-                            chat.name = id;
+
                             chats.add(chat);
                             Log.d("kwk",chat.haver+" / "+chat.roomName);
                         }
@@ -111,10 +113,13 @@ public class ChatActivity extends AppCompatActivity {
                                         //방 이름
                                         chat.haver = snapshot.getString("haver");
                                         chat.borrower = snapshot.getString("borrower");
+                                        chat.name = snapshot.getString("name");
+
                                         chat.roomName = chat.haver;
                                         //chat.name 에다 자기 id 넣어줌.
-                                        chat.name = id;
+
                                         chats.add(chat);
+
                                         Log.d("kwk",chat.haver+" / "+chat.roomName+"test2");
 
 

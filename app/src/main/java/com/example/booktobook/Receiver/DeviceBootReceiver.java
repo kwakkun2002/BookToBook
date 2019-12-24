@@ -24,7 +24,7 @@ public class DeviceBootReceiver extends BroadcastReceiver {
             long mills=preferences.getLong("long", Calendar.getInstance().getTimeInMillis());
 
             if (manager!=null){
-                manager.set(AlarmManager.RTC_WAKEUP,mills,pendingIntent);
+//                manager.set(AlarmManager.RTC_WAKEUP,mills,pendingIntent);
             }
         }
     }

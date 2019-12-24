@@ -1,6 +1,7 @@
 package com.example.booktobook.Adapter;
 
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.booktobook.Model.Chat;
 import com.example.booktobook.Interface.OnItemClickListener;
 import com.example.booktobook.R;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
@@ -42,9 +47,24 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Chat chat=chats.get(position);
-        holder.name.setText(chat.roomName);
-        holder.time.setText((CharSequence) chat.timestamp);
-        holder.chat.setText(chat.message);
+
+        holder.name.setText(chat.name);
+
+        StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+        StorageReference userProfileImageRef = storageRef.child("user_profile_image/"+chat.roomName);
+        final long ONE_MEGABYTE = 1024 * 1024;
+        userProfileImageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            @Override
+            public void onSuccess(byte[] bytes) {
+                holder.imageView.setImageBitmap(BitmapFactory.decodeByteArray(bytes, 0, bytes.length));
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                holder.imageView.setImageResource(R.drawable.user_1217);
+            }
+        });
+
 
     }
 
@@ -64,8 +84,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
             super(itemView);
             imageView=itemView.findViewById(R.id.profile_image);
             name=itemView.findViewById(R.id.profile_name);
-            chat=itemView.findViewById(R.id.profile_chat);
-            time=itemView.findViewById(R.id.profile_time);
+
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

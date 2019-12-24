@@ -2,9 +2,11 @@ package com.example.booktobook.Activity;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,6 +30,7 @@ import com.example.booktobook.Receiver.AlarmReceiver;
 import com.example.booktobook.Model.Chat;
 import com.example.booktobook.Interface.CustomDialogListener;
 import com.example.booktobook.R;
+import com.example.booktobook.Receiver.DeviceBootReceiver;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -39,9 +42,11 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.model.Document;
 import com.kunzisoft.switchdatetime.SwitchDateTimeDialogFragment;
 import com.rtchagas.pingplacepicker.PingPlacePicker;
 
@@ -84,6 +89,8 @@ public class MessageActivity extends AppCompatActivity {
     private static final String TAG_DATETIME_FRAGMENT = "TAG_DATETIME_FRAGMENT";
     String a="";
     private Calendar calendar= Calendar.getInstance();
+    private Calendar calendar1=Calendar.getInstance();
+    ListenerRegistration listenerRegistration;
 
 
     @Override
@@ -114,12 +121,12 @@ public class MessageActivity extends AppCompatActivity {
         });
         dateFormatHour.setTimeZone(TimeZone.getTimeZone("Asia/Seoul"));
         bookAlarm();
-
         sharedPreferences=getSharedPreferences("pref",MODE_PRIVATE);
         sender=sharedPreferences.getString("ID","");
         position=sharedPreferences.getInt("size",0);
         recyclerView.scrollToPosition(position-1);
         dateTimeFragment = (SwitchDateTimeDialogFragment) getSupportFragmentManager().findFragmentByTag(TAG_DATETIME_FRAGMENT);
+
 
 
         if (sender.equals(chat.haver))
@@ -150,6 +157,14 @@ public class MessageActivity extends AppCompatActivity {
                             haver[0] =snapshot.getString("haver");
                             borrower[0] =snapshot.getString("borrower");
 
+                            SharedPreferences sharedPreferences=getSharedPreferences("pref",MODE_PRIVATE);
+                            SharedPreferences.Editor editor=sharedPreferences.edit();
+                            editor.putString("haver",haver[0]);
+                            editor.apply();
+                            editor.commit();
+
+
+
                             Log.d("iam",haver[0]);
                         }
                         formDialog.setText(haver[0],borrower[0]);
@@ -170,6 +185,8 @@ public class MessageActivity extends AppCompatActivity {
                         map.put("time",time);
                         map.put("location",location);
                         map.put("room_id",chat.id);
+                        map.put("flag",false);
+
 
                         db.collection("meet")
                                 .add(map)
@@ -179,6 +196,12 @@ public class MessageActivity extends AppCompatActivity {
                                         if (task.isSuccessful())
                                         {
                                             Toast.makeText(getApplicationContext(),time+"에"+"\n"+location+"에서 만납니다.",Toast.LENGTH_SHORT).show();
+                                            sendMessage(time+"에"+"\n"+location+"에서 만납니다.");
+                                            SharedPreferences sharedPreferences=getSharedPreferences("pref",MODE_PRIVATE);
+                                            SharedPreferences.Editor editor=sharedPreferences.edit();
+                                            editor.putString("room_id",chat.id);
+                                            editor.putString("receiver",chat.borrower);
+
                                         }
                                         else
                                         {
@@ -186,6 +209,7 @@ public class MessageActivity extends AppCompatActivity {
                                         }
                                     }
                                 });
+                        setAlarm();
 
                     }
 
@@ -249,74 +273,113 @@ public class MessageActivity extends AppCompatActivity {
 
     private void bookAlarm() {
 
-        db.collection("meet")
-                .whereEqualTo("room_id",chat.id)
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+//        Query query=db.collection("meet")
+//                .whereEqualTo("room_id",chat.id)
+//                .whereEqualTo("flag",false);
 
-                        Log.d("book", "test");
-                        if (e != null)
-                            return;
-                        for (DocumentChange dc : queryDocumentSnapshots.getDocumentChanges()) {
-                            switch (dc.getType()) {
-                                case ADDED:
-                                    setAlarm();
-                                    break;
+//        listenerRegistration=query.addSnapshotListener(new EventListener<QuerySnapshot>() {
+//            @Override
+//            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+//                Log.d("start","2");
+//                setAlarm();
+//                Log.d("start","1");
+//                listenerRemove();
+//            }
+//        });
 
-                            }
-                        }
-                    }
 
-                });
     }
 
-    private void setAlarm() {
-            Intent mAlarmIntent = new Intent(getApplicationContext(), AlarmReceiver.class);
-            PendingIntent mPendingIntent= PendingIntent.getBroadcast(
-                    getApplicationContext(),0,mAlarmIntent,PendingIntent.FLAG_UPDATE_CURRENT
-            );
-            //PackageManager pm=getApplicationContext().getPackageManager();
-            //ComponentName receiver= new ComponentName(getApplicationContext(),DeviceBootReceiver.class);
+//    private void listenerRemove() {
+//        listenerRegistration.remove();
+//    }
 
-            AlarmManager alarmManager=(AlarmManager) getSystemService(Context.ALARM_SERVICE);
-            if (Build.VERSION.SDK_INT<Build.VERSION_CODES.M){
-                if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.KITKAT){
-                    alarmManager.setExact(
-                            AlarmManager.RTC_WAKEUP,
-                            calendar.getTimeInMillis(),
-                            mPendingIntent
-                    );
-                }else{
-                    alarmManager.set(
-                            AlarmManager.RTC_WAKEUP,
-                            calendar.getTimeInMillis(),
-                            mPendingIntent
-                    );
-                }
-            }else{
-                alarmManager.setExactAndAllowWhileIdle(
+    private void setAlarm() {
+        Intent mAlarmIntent = new Intent(getApplicationContext(), AlarmReceiver.class);
+        mAlarmIntent.putExtra("text","책을 빌려주셨습니까?");
+        mAlarmIntent.putExtra("id",111);
+
+        PendingIntent mPendingIntent= PendingIntent.getBroadcast(
+                getApplicationContext(),0,mAlarmIntent,PendingIntent.FLAG_UPDATE_CURRENT
+        );
+        PendingIntent pendingIntent=PendingIntent.getBroadcast(
+                getApplicationContext(),1,mAlarmIntent,PendingIntent.FLAG_UPDATE_CURRENT
+        );
+        //mAlarmIntent.putExtra("text","약속 1시간 전입니다.");
+
+        SharedPreferences preferences=getPreferences(MODE_PRIVATE);
+
+
+        mAlarmIntent.putExtra("id",222);
+        mAlarmIntent.putExtra("room_id",preferences.getString("room_id"," "));
+        mAlarmIntent.putExtra("receiver",preferences.getString("receiver"," "));
+
+        Log.d("service",preferences.getString("room_id"," ")+"\n"+preferences.getString("receiver"," "));
+
+
+
+        PackageManager pm=getApplicationContext().getPackageManager();
+        ComponentName receiver= new ComponentName(getApplicationContext(), DeviceBootReceiver.class);
+        AlarmManager alarmManager=(AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        AlarmManager manager=(AlarmManager)getSystemService(Context.ALARM_SERVICE);
+
+        calendar1.add(Calendar.HOUR,-1);
+
+        Log.d("else", String.valueOf(calendar1.getTimeInMillis()));
+        Log.d("else", String.valueOf(calendar1.getTime()));
+
+        if (Build.VERSION.SDK_INT<Build.VERSION_CODES.M){
+            if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.KITKAT){
+
+                alarmManager.setExact(
+                        manager.RTC_WAKEUP,
+                        calendar1.getTimeInMillis(),
+                        pendingIntent
+                );
+                alarmManager.setExact(
                         AlarmManager.RTC_WAKEUP,
                         calendar.getTimeInMillis(),
                         mPendingIntent
                 );
+            }else{
+                alarmManager.set(
+                        manager.RTC_WAKEUP,
+                        calendar1.getTimeInMillis(),
+                        pendingIntent
+                );
+                alarmManager.set(
+                        AlarmManager.RTC_WAKEUP,
+                        calendar.getTimeInMillis(),
+                        pendingIntent
+                );
             }
+        }else{
+            alarmManager.setExactAndAllowWhileIdle(
+                    manager.RTC_WAKEUP,
+                    calendar1.getTimeInMillis(),
+                    mPendingIntent
+            );
 
-
-            Log.d("cal", String.valueOf(calendar.getTime()));
-
-            SharedPreferences sharedPreferences=getSharedPreferences("pref",MODE_PRIVATE);
-            SharedPreferences.Editor editer=sharedPreferences.edit();
-            editer.putLong("long",calendar.getTimeInMillis());
-            editer.apply();
-            editer.commit();
-//
-//                        pm.setComponentEnabledSetting(receiver,
-//                                PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-//                                PackageManager.DONT_KILL_APP);
-
-
+            alarmManager.setExactAndAllowWhileIdle(
+                    AlarmManager.RTC_WAKEUP,
+                    calendar.getTimeInMillis(),
+                    mPendingIntent
+            );
         }
+
+
+        Log.d("cal", String.valueOf(calendar.getTime()));
+
+        SharedPreferences sharedPreferences=getSharedPreferences("pref",MODE_PRIVATE);
+        SharedPreferences.Editor editer=sharedPreferences.edit();
+        editer.putLong("long",calendar.getTimeInMillis());
+        editer.apply();
+        editer.commit();
+
+        pm.setComponentEnabledSetting(receiver, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
+
+
+    }
 
 
 
@@ -366,6 +429,7 @@ public class MessageActivity extends AppCompatActivity {
             @Override
             public void onPositiveButtonClick(Date date) {
                 calendar.setTime(date);
+                calendar1.setTime(date);
                 a=myDateFormat.format(date);
 
                 formDialog.setTimeText(a);
@@ -455,7 +519,7 @@ public class MessageActivity extends AppCompatActivity {
                             connection.setRequestMethod("POST");
                             connection.setDoOutput(true);
                             connection.setDoInput(true);
-                            connection.addRequestProperty("Authorization", "key=" + SERVER_KEY);
+                            connection.addRequestProperty("Authorization", "key="+SERVER_KEY);
                             connection.setRequestProperty("Accept", "application/json");
                             connection.setRequestProperty("Content-type", "application/json");
                             OutputStream os=connection.getOutputStream();
@@ -489,32 +553,32 @@ public class MessageActivity extends AppCompatActivity {
                             return;
                         }
                         chats.clear();
-                            for (QueryDocumentSnapshot snapshot:queryDocumentSnapshots)
-                            {
-                                Chat chat = new Chat();
-                                chat.id=snapshot.getString("room_id");
-                                chat.message=snapshot.getString("message");
-                                chat.sender=snapshot.getString("sender");
-                                chat.timestamp=snapshot.getString("timestamp");
+                        for (QueryDocumentSnapshot snapshot:queryDocumentSnapshots)
+                        {
+                            Chat chat = new Chat();
+                            chat.id=snapshot.getString("room_id");
+                            chat.message=snapshot.getString("message");
+                            chat.sender=snapshot.getString("sender");
+                            chat.timestamp=snapshot.getString("timestamp");
 
-                                chats.add(chat);
-                            }
-                            messageListAdapter.notifyDataSetChanged();
-                            SharedPreferences sharedPreferences= getSharedPreferences("pref",MODE_PRIVATE);
-                            SharedPreferences.Editor editor=sharedPreferences.edit();
-                            editor.putInt("size",chats.size());
-                            editor.commit();
-
+                            chats.add(chat);
                         }
+                        messageListAdapter.notifyDataSetChanged();
+                        SharedPreferences sharedPreferences= getSharedPreferences("pref",MODE_PRIVATE);
+                        SharedPreferences.Editor editor=sharedPreferences.edit();
+                        editor.putInt("size",chats.size());
+                        editor.commit();
+
+                    }
 
                 });
 
-        }
+    }
 
 
 
 
-            }
+}
 
 
 
